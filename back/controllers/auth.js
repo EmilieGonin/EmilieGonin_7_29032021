@@ -7,7 +7,6 @@ require("dotenv").config();
 exports.userSignup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
   .then(hash => {
-    console.log(req.body.email);
     const user = User.build({
       email: req.body.email,
       password: hash,
@@ -16,10 +15,10 @@ exports.userSignup = (req, res, next) => {
     });
 
     user.save()
-    .then(() => res.status(201).json({ message: "Utilisateur créé !", user: user }))
-  	.catch((error) => res.status(400).json({ error: "Impossible d'enregistrer l'utiisateur dans la base de données.", user: user }));
+    .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
+  	.catch((error) => res.status(400).json({ error: "Impossible d'enregistrer l'utiisateur dans la base de données." }));
   })
-  .catch((error) => res.status(500).json({ error: "Impossible de créer l'utilisteur.", user: user }));
+  .catch((error) => res.status(500).json({ error: "Impossible de créer l'utilisteur." }));
 };
 exports.userLogin = (req, res, next) => {
   User.findOne({ email: req.body.email })
@@ -33,7 +32,6 @@ exports.userLogin = (req, res, next) => {
         return res.status(401).json({ error: "Mot de passe incorrect." });
       }
       res.status(200).json({
-        message: "Utilisateur connecté !",
         userId: user.id,
         token: jwt.sign(
           { userId: user._id },
