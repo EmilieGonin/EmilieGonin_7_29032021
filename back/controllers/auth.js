@@ -13,19 +13,15 @@ exports.userSignup = (req, res, next) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName
     });
-
     user.save()
     .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
-  	.catch((error) => res.status(400).json({ error: "Impossible d'enregistrer l'utiisateur dans la base de données." }));
+  	.catch(() => res.status(400).json({ error: "Impossible d'enregistrer l'utiisateur dans la base de données." }));
   })
-  .catch((error) => res.status(500).json({ error: "Impossible de créer l'utilisteur." }));
+  .catch(() => res.status(500).json({ error: "Impossible de créer l'utilisteur." }));
 };
 exports.userLogin = (req, res, next) => {
-  User.findOne({ email: req.body.email })
+  User.findOne({ where: { email: req.body.email } })
   .then(user => {
-    if (!user) {
-      return res.status(401).json({ error: "Utilisateur non trouvé." });
-    }
     bcrypt.compare(req.body.password, user.password)
     .then(valid => {
       if (!valid) {
@@ -34,13 +30,22 @@ exports.userLogin = (req, res, next) => {
       res.status(200).json({
         userId: user.id,
         token: jwt.sign(
-          { userId: user._id },
+          { userId: user.id },
           process.env.SECRET,
           { expiresIn: "24h" }
         )
       });
     })
-    .catch(error => res.status(500).json({ error }));
+    .catch(() => res.status(500).json({ error: "Une erreur s'est produite." }));
   })
-  .catch(error => res.status(500).json({ error }));
+  .catch(() => res.status(401).json({ error: "Utilisateur non trouvé." }));
 };
+exports.userDelete = (req, res, next) => {
+  User.findOne({ where: { id: req.body.id } })
+  .then(user => {
+    user.destroy({ id: req.body.id })
+    .then(() => res.status(200).json({ message: "Utilisateur supprimé !" }))
+    .catch((error) => res.status(500).json({ error: "Impossible de supprimer l'utilisateur." }));
+  })
+  .catch(() => res.status(401).json({ error: "Utilisateur introuvable." }));
+}
