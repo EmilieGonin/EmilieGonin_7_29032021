@@ -1,6 +1,15 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 //const path = require("path");
+const { sequelize } = require("./middlewares/sequelize");
+
+sequelize.authenticate()
+.then(() => console.log("Connexion à la base de données MySQL terminée !"))
+.catch((error) => console.error("Impossible de se connecter à la base de données :", error));
+
+sequelize.sync()
+.then(() => console.log("Base de données synchronisée avec succès !"))
+.catch((error) => console.error(error));
 
 const app = express();
 

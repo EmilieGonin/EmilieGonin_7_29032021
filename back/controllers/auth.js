@@ -1,4 +1,3 @@
-const { Sequelize } = require("sequelize");
 const { User } = require("../middlewares/sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
