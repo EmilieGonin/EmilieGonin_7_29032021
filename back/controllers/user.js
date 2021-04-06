@@ -40,9 +40,9 @@ exports.userLogin = (req, res, next) => {
   .catch(() => res.status(401).json({ error: "Utilisateur non trouvé." }));
 };
 exports.userDelete = (req, res, next) => {
-  User.findOne({ where: { id: req.body.id } })
+  User.findOne({ where: { id: req.params.id } })
   .then(user => {
-    user.destroy({ id: req.body.id })
+    user.destroy({ id: req.params.id })
     .then(() => res.status(200).json({ message: "Utilisateur supprimé !" }))
     .catch((error) => res.status(500).json({ error: "Impossible de supprimer l'utilisateur." }));
   })
