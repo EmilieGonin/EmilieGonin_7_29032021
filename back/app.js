@@ -6,7 +6,7 @@ require("./middlewares/sequelize");
 const app = express();
 
 //Import routes
-const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*");
@@ -17,6 +17,6 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 //app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
 module.exports = app;
