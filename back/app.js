@@ -1,7 +1,12 @@
+const mysql = require("mysql2");
+const { Sequelize } = require("sequelize");
 const express = require('express');
 const bodyParser = require("body-parser");
 //const path = require("path");
-require("./middlewares/sequelize");
+
+//Create db if it doesn't already exist
+const connection = mysql.createConnection({ user: "root" });
+connection.query("CREATE DATABASE IF NOT EXISTS test");
 
 const app = express();
 
