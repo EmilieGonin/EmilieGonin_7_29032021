@@ -18,8 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     avatar: {
-      type: DataTypes.STRING,
-      defaultValue: "URL"
+      type: DataTypes.STRING
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,

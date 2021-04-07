@@ -6,13 +6,12 @@ require("dotenv").config();
 exports.userSignup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
   .then(hash => {
-    const user = User.build({
+    const user = User.create({
       email: req.body.email,
       password: hash,
       firstName: req.body.firstName,
       lastName: req.body.lastName
-    });
-    user.save()
+    })
     .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
   	.catch(() => res.status(400).json({ error: "Impossible d'enregistrer l'utiisateur dans la base de données." }));
   })
@@ -39,12 +38,33 @@ exports.userLogin = (req, res, next) => {
   })
   .catch(() => res.status(401).json({ error: "Utilisateur non trouvé." }));
 };
-exports.userDelete = (req, res, next) => {
-  User.findOne({ where: { id: req.params.id } })
-  .then(user => {
-    user.destroy({ id: req.params.id })
-    .then(() => res.status(200).json({ message: "Utilisateur supprimé !" }))
-    .catch((error) => res.status(500).json({ error: "Impossible de supprimer l'utilisateur." }));
+exports.userUpdate = (req, res, next) => {
+  const user = req.file ?
+  {
+    ...JSON.parse(req.body.user),
+    avatar: `${req.protocol}://${req.get('host')}/back/uploads/${req.file.filename}`
+  } : { ...req.body.user };
+
+  User.update(user, { where: { id: req.params.id } })
+  .then((found) => {
+    if (found[0]) {
+      res.status(200).json({ message: "Utilisateur mis à jour !" });
+    }
+    else {
+      res.status(401).json({ error: "Utilisateur non trouvé." });
+    }
   })
-  .catch(() => res.status(401).json({ error: "Utilisateur introuvable." }));
+  .catch((error) => res.status(500).json({ error: "Impossible de mettre à jour l'utilisateur." }));
+}
+exports.userDelete = (req, res, next) => {
+  User.destroy({ where: { id: req.params.id } })
+  .then((found) => {
+    if (found) {
+      res.status(200).json({ message: "Utilisateur supprimé !" });
+    }
+    else {
+      res.status(401).json({ error: "Utilisateur non trouvé." });
+    }
+  })
+  .catch((error) => res.status(500).json({ error: "Impossible de supprimer l'utilisateur." }));
 }
