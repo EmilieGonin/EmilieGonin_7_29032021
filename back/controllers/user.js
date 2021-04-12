@@ -3,6 +3,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+exports.getUser = (req, res, next) => {
+  User.findByPk(req.params.id)
+  .then((user) => res.status(200).json({ user }))
+  .catch((error) => res.status(500).json({ error: "Impossible d'afficher l'utilisateur." }));
+};
 exports.userSignup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
   .then(hash => {
