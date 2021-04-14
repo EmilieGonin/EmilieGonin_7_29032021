@@ -1,29 +1,40 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="nav">
+    <router-link to="/"
+      ><img class="nav__logo" src="./assets/logo.png"
+    /></router-link>
+    <router-link class="nav__link" to="/about">Prénom Nom</router-link>
   </div>
-  <router-view/>
+  <router-view />
 </template>
 
 <style lang="scss">
+// Importing the global css file
+@import "./assets/global.scss";
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  background-color: white;
+  height: 50px;
+  border-bottom: 4px $secondary-color solid;
+  &__logo {
+    height: 45px;
+  }
+  &__link {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: black;
+    color: white;
+    &:hover {
+      background-color: $secondary-color;
     }
   }
 }

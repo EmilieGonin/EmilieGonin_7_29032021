@@ -1,0 +1,21 @@
+// !compileOnSave
+$primary-color: #091f43;
+$secondary-color: #d1515a;
+$tertiary-color: #bab6ae;
+$dark-theme: lighten(black, 15%);
+
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+body {
+  margin: 0;
+  background-color: $dark-theme;
+  color: $primary-color;
+  font-family: "Roboto", sans-serif;
+}
