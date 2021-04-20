@@ -2,7 +2,7 @@
   <div class="post-item">
     <div class="post-item__header">
       <img class="post-item__avatar" src="@/assets/default.jpg" alt="" />
-      <span>Prénom Nom</span>
+      <router-link class="post-item__name" to="/user">Prénom Nom</router-link>
     </div>
     <div class="post-item__message">
       Cat ipsum dolor sit amet, doloremque, eum laborum. Deserunt inventore for
@@ -38,6 +38,8 @@ export default {
     gap: 5px;
     height: $post-avatar + 10;
     padding: 5px;
+  }
+  &__name {
     color: $primary-color;
     font-weight: bold;
   }

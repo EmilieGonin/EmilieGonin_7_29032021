@@ -30,7 +30,6 @@
     display: flex;
     align-items: center;
     padding: 10px 20px;
-    text-decoration: none;
     background-color: black;
     color: white;
     &:hover {
