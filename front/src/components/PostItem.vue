@@ -35,7 +35,7 @@ export default {
   &__header {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     height: $post-avatar + 10;
     padding: 5px;
   }
