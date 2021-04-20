@@ -15,6 +15,9 @@
       Aliqua esse. Sed iste or qui iure for adipisicing but illum vel. Culpa
       aperiam. Vel quasi adipisci. Aut ipsum nihil quo.
     </div>
+    <div class="post-item__comments">
+      <router-link to="/post">2 commentaires</router-link>
+    </div>
   </div>
 </template>
 
@@ -50,8 +53,12 @@ export default {
     object-fit: cover;
   }
   &__message {
-    padding: 5px 15px 15px 15px;
+    padding: 5px 15px;
     font-size: $font-default;
+  }
+  &__comments {
+    font-size: $font-mini;
+    padding: 15px;
   }
 }
 </style>
