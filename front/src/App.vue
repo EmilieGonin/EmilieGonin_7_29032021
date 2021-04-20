@@ -1,16 +1,16 @@
 <template>
   <div class="nav">
-    <router-link to="/"
-      ><img class="nav__logo" src="./assets/logo.png"
-    /></router-link>
-    <router-link class="nav__link" to="/about">Prénom Nom</router-link>
+    <router-link to="/">
+      <img class="nav__logo" src="./assets/logo.png" />
+    </router-link>
+    <router-link class="nav__link" to="/user">Prénom Nom</router-link>
   </div>
   <router-view />
 </template>
 
 <style lang="scss">
 // Importing the global css file
-@import "./assets/global.scss";
+@import "@/assets/global.scss";
 
 #app {
   -webkit-font-smoothing: antialiased;
@@ -21,10 +21,10 @@
   justify-content: space-between;
   align-items: stretch;
   background-color: white;
-  height: 50px;
-  border-bottom: 4px $secondary-color solid;
+  height: $nav-size;
+  border-bottom: 4px $primary-color solid;
   &__logo {
-    height: 45px;
+    height: $nav-size - 5;
   }
   &__link {
     display: flex;
@@ -34,7 +34,7 @@
     background-color: black;
     color: white;
     &:hover {
-      background-color: $secondary-color;
+      background-color: $primary-color;
     }
   }
 }

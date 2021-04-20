@@ -1,8 +1,17 @@
 // !compileOnSave
-$primary-color: #091f43;
-$secondary-color: #d1515a;
+$primary-color: #d1515a;
+$secondary-color: #091f43;
 $tertiary-color: #bab6ae;
+$font-color: darken(white, 5%);
 $dark-theme: lighten(black, 15%);
+$post-color: darken($dark-theme, 5%);
+
+//Element sizes
+$nav-size: 35px;
+$post-avatar: 40px;
+
+//Font sizes
+$font-default: 15px;
 
 html {
   box-sizing: border-box;
@@ -16,6 +25,6 @@ html {
 body {
   margin: 0;
   background-color: $dark-theme;
-  color: $primary-color;
+  color: $font-color;
   font-family: "Roboto", sans-serif;
 }
