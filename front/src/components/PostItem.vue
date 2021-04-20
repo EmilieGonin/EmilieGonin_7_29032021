@@ -36,8 +36,8 @@ export default {
     display: flex;
     align-items: center;
     gap: 10px;
-    height: $post-avatar + 10;
-    padding: 5px;
+    height: $post-avatar + 15;
+    padding: 5px 15px;
   }
   &__name {
     color: $primary-color;
@@ -50,7 +50,7 @@ export default {
     object-fit: cover;
   }
   &__message {
-    padding: 15px;
+    padding: 5px 15px 15px 15px;
     font-size: $font-default;
   }
 }
