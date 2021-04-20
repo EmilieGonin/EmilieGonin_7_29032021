@@ -5,7 +5,7 @@
     </router-link>
     <router-link class="nav__link" to="/user">Prénom Nom</router-link>
   </div>
-  <router-view />
+  <router-view class="view" />
 </template>
 
 <style lang="scss">
@@ -36,5 +36,9 @@
       background-color: $primary-color;
     }
   }
+}
+.view {
+  width: 700px;
+  margin: auto;
 }
 </style>

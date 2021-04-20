@@ -19,10 +19,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.home {
-  width: 700px;
-  margin: auto;
-}
-</style>
