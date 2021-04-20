@@ -33,4 +33,17 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  //redirect if not logged in
+  const publicPages = ['/login', '/signup'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+
+  if (authRequired && !loggedIn) {
+    return next('/login');
+  }
+
+  next();
+})
+
 export default router
