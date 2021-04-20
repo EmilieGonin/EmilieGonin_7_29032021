@@ -8,7 +8,7 @@
       {{ text }}
     </div>
     <div class="post-item__comments">
-      <router-link to="/post">2 commentaires</router-link>
+      <router-link :to="'/post/' + id">2 commentaires</router-link>
     </div>
   </div>
 </template>
@@ -17,6 +17,7 @@
 export default {
   name: "PostItem",
   props: {
+    id: Number,
     text: String
   }
 };
