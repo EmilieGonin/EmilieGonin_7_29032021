@@ -5,15 +5,7 @@
       <router-link class="post-item__name" to="/user">Prénom Nom</router-link>
     </div>
     <div class="post-item__message">
-      Cat ipsum dolor sit amet, doloremque, eum laborum. Deserunt inventore for
-      vel. Irure occaecat. Suscipit aliquam incididunt. Inventore iste,
-      exercitation ullam. Culpa est yet proident for officia esse aliquam or
-      totam. Eum aperiam vel or consequat. Natus magnam qui so beatae. Vel
-      pariatur doloremque quaerat so inventore. Beatae ullamco for tempora non
-      so exercitationem. Aliquid magna culpa. Non eaque quae but voluptatem
-      beatae aspernatur. Aute culpa aute. Do magni and dolor enim for veritatis.
-      Aliqua esse. Sed iste or qui iure for adipisicing but illum vel. Culpa
-      aperiam. Vel quasi adipisci. Aut ipsum nihil quo.
+      {{ text }}
     </div>
     <div class="post-item__comments">
       <router-link to="/post">2 commentaires</router-link>
@@ -23,7 +15,10 @@
 
 <script>
 export default {
-  name: "PostItem"
+  name: "PostItem",
+  props: {
+    text: String
+  }
 };
 </script>
 

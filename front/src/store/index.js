@@ -3,7 +3,12 @@ import axios from 'axios'
 
 export default createStore({
   state: {
-    posts: {}
+    posts: []
+  },
+  getters: {
+    posts: state => {
+      return state.posts;
+    }
   },
   mutations: {
     SET_POSTS(state, posts) {
