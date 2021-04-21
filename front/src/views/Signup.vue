@@ -15,15 +15,17 @@ export default {
   name: "Signup",
   methods: {
     signupForm(e) {
+      e.preventDefault();
       const user = {
         email: this.email,
         password: this.password,
         firstName: this.firstName,
         lastName: this.lastName
       };
-      this.$store.dispatch("signup", user);
-      e.preventDefault();
-      this.$router.push("/home");
+      this.$store
+        .dispatch("signup", user)
+        .then(() => this.$router.push("/"))
+        .catch(() => console.error("error"));
     }
   }
 };
