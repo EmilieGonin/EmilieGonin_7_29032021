@@ -3,7 +3,7 @@ import axios from 'axios'
 
 //localStorage.clear();
 const user = JSON.parse(localStorage.getItem("user"));
-console.log(user);
+//console.log(user);
 
 export default createStore({
   state() {
@@ -37,8 +37,8 @@ export default createStore({
       state.status = "error";
     },
     LOGOUT(state) {
+      state.status = "";
       state.user = null;
-      state.loggedIn = false;
     }
   },
   actions: {
@@ -87,6 +87,10 @@ export default createStore({
           reject(error);
         })
       })
+    },
+    logout({ commit }) {
+      commit("LOGOUT");
+      localStorage.removeItem("user");
     }
   },
   modules: {

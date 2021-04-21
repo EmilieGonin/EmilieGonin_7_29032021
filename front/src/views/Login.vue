@@ -14,6 +14,12 @@
 <script>
 export default {
   name: "Login",
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
   methods: {
     loginForm(e) {
       e.preventDefault();

@@ -8,11 +8,12 @@
         {{ user.firstName }} {{ user.lastName }}
       </router-link>
       <router-link class="nav__link" to="/login" v-else>
-        Se connecter
+        <div>Se connecter</div>
+        <i class="fad fa-sign-in-alt"></i>
       </router-link>
-      <router-link class="nav__link" to="/login">
+      <a @click="logout" class="nav__link nav__link--icon" v-if="isLoggedIn">
         <i class="fad fa-sign-out-alt"></i>
-      </router-link>
+      </a>
     </div>
   </div>
   <router-view class="view" />
@@ -22,7 +23,12 @@
 import { mapGetters } from "vuex";
 
 export default {
-  computed: mapGetters(["user", "isLoggedIn"])
+  computed: mapGetters(["user", "isLoggedIn"]),
+  methods: {
+    logout() {
+      this.$store.dispatch("logout").then(() => this.$router.push("/login"));
+    }
+  }
 };
 </script>
 
@@ -44,14 +50,22 @@ export default {
   &__logo {
     height: $nav-size - 5;
   }
+  &__links {
+    display: flex;
+    background-color: black;
+  }
   &__link {
     display: flex;
+    gap: 10px;
     align-items: center;
     padding: 10px 20px;
-    background-color: black;
     color: white;
     &:hover {
       background-color: $primary-color;
+    }
+    &--icon {
+      cursor: pointer;
+      padding: 10px;
     }
   }
 }

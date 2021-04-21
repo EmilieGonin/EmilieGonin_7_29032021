@@ -13,6 +13,14 @@
 <script>
 export default {
   name: "Signup",
+  data() {
+    return {
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: ""
+    };
+  },
   methods: {
     signupForm(e) {
       e.preventDefault();
