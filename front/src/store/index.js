@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 
+//localStorage.clear();
 const user = JSON.parse(localStorage.getItem("user"));
 console.log(user);
 
@@ -15,7 +16,11 @@ export default createStore({
   getters: {
     posts: state => {
       return state.posts;
-    }
+    },
+    user: state => {
+      return state.user.user;
+    },
+    isLoggedIn: state => !!state.user
   },
   mutations: {
     SET_POSTS(state, posts) {

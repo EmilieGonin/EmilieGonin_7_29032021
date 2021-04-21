@@ -3,10 +3,28 @@
     <router-link to="/">
       <img class="nav__logo" src="./assets/logo.png" />
     </router-link>
-    <router-link class="nav__link" to="/user">Prénom Nom</router-link>
+    <div class="nav__links">
+      <router-link class="nav__link" :to="'/user/' + user.id" v-if="isLoggedIn">
+        {{ user.firstName }} {{ user.lastName }}
+      </router-link>
+      <router-link class="nav__link" to="/login" v-else>
+        Se connecter
+      </router-link>
+      <router-link class="nav__link" to="/login">
+        <i class="fad fa-sign-out-alt"></i>
+      </router-link>
+    </div>
   </div>
   <router-view class="view" />
 </template>
+
+<script>
+import { mapGetters } from "vuex";
+
+export default {
+  computed: mapGetters(["user", "isLoggedIn"])
+};
+</script>
 
 <style lang="scss">
 // Importing the global css file

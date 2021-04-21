@@ -2,7 +2,9 @@
   <div class="post-item">
     <div class="post-item__header">
       <img class="post-item__avatar" src="@/assets/default.jpg" alt="" />
-      <router-link class="post-item__name" to="/user">Prénom Nom</router-link>
+      <router-link class="post-item__name" :to="'/user/' + user.id">
+        {{ user.firstName }} {{ user.lastName }}
+      </router-link>
     </div>
     <div class="post-item__message">
       {{ text }}
@@ -14,12 +16,15 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "PostItem",
   props: {
     id: Number,
     text: String
-  }
+  },
+  computed: mapGetters(["user"])
 };
 </script>
 
