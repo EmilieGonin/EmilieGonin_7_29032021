@@ -17,7 +17,14 @@ exports.userSignup = (req, res, next) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName
     })
-    .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
+    .then((user) => res.status(201).json({
+      user: user,
+      token: jwt.sign(
+        { userId: user.id },
+        process.env.SECRET,
+        { expiresIn: "24h" }
+      )
+    }))
   	.catch(() => res.status(400).json({ error: "Impossible d'enregistrer l'utiisateur dans la base de données." }));
   })
   .catch(() => res.status(500).json({ error: "Impossible de créer l'utilisteur." }));
@@ -31,7 +38,7 @@ exports.userLogin = (req, res, next) => {
         return res.status(401).json({ error: "Mot de passe incorrect." });
       }
       res.status(200).json({
-        userId: user.id,
+        user: user,
         token: jwt.sign(
           { userId: user.id },
           process.env.SECRET,
