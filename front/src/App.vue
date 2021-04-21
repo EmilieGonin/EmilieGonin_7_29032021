@@ -11,6 +11,13 @@
         <div>Se connecter</div>
         <i class="fad fa-sign-in-alt"></i>
       </router-link>
+      <router-link
+        class="nav__link nav__link--icon"
+        to="/account"
+        v-if="isLoggedIn"
+      >
+        <i class="fas fa-cog"></i>
+      </router-link>
       <a @click="logout" class="nav__link nav__link--icon" v-if="isLoggedIn">
         <i class="fad fa-sign-out-alt"></i>
       </a>
@@ -52,7 +59,6 @@ export default {
   }
   &__links {
     display: flex;
-    background-color: black;
   }
   &__link {
     display: flex;
@@ -60,12 +66,14 @@ export default {
     align-items: center;
     padding: 10px 20px;
     color: white;
+    background-color: $primary-color;
     &:hover {
-      background-color: $primary-color;
+      background-color: lighten($primary-color, 5%);
     }
     &--icon {
       cursor: pointer;
       padding: 10px;
+      background-color: lighten($primary-color, 15%);
     }
   }
 }
