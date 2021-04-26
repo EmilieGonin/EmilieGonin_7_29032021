@@ -1,19 +1,22 @@
-const { User, Post } = require("../middlewares/sequelize");
+const { User, Post, Comment } = require("../middlewares/sequelize");
 
 exports.getAllPosts = (req, res, next) => {
-  Post.findAll({ order: [["id", "DESC"]] })
+  Post.findAll({
+    order: [["id", "DESC"]],
+    include: User, Comment })
   .then((posts) => res.status(200).json({ posts }))
   .catch((error) => res.status(500).json({ error: "Impossible d'afficher les posts." }));
 };
 exports.getAllPostsFromUser = (req, res, next) => {
   Post.findAll({
     where: { userId: req.params.userId },
-    order: [["id", "DESC"]] })
+    order: [["id", "DESC"]],
+    include: User, Comment })
   .then((posts) => res.status(200).json({ posts }))
   .catch((error) => res.status(500).json({ error: "Impossible d'afficher les posts." }));
 };
 exports.getPost = (req, res, next) => {
-  Post.findByPk(req.params.id)
+  Post.findByPk(req.params.id, { include: User, Comment })
   .then((post) => res.status(200).json({ post }))
   .catch((error) => res.status(500).json({ error: "Impossible d'afficher le post." }));
 };
