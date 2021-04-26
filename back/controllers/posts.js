@@ -18,7 +18,7 @@ exports.getPost = (req, res, next) => {
   .catch((error) => res.status(500).json({ error: "Impossible d'afficher le post." }));
 };
 exports.newPost = (req, res, next) => {
-  User.findByPk(req.body.id)
+  User.findByPk(req.body.UserId)
   .then(user => {
     user.createPost({
       text: req.body.text

@@ -59,7 +59,7 @@ exports.userUpdate = (req, res, next) => {
   } : { ...JSON.parse(req.body.user) };
 
   if (req.file) {
-    User.findByPk(req.params.id)
+    User.findByPk(req.params.UserId)
     .then((user) => {
       if (user.avatar) {
         const filename = user.avatar.split("/uploads")[1];
@@ -85,7 +85,7 @@ exports.userUpdate = (req, res, next) => {
   .catch((error) => res.status(500).json({ error: "Impossible de mettre à jour l'utilisateur." }));
 }
 exports.userDelete = (req, res, next) => {
-  User.findByPk(req.params.id)
+  User.findByPk(req.params.UserId)
   .then((user) => {
     if (user.avatar) {
       const filename = user.avatar.split("/uploads")[1];
