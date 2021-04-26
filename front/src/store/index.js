@@ -3,7 +3,10 @@ import axios from 'axios'
 
 //localStorage.clear();
 const user = JSON.parse(localStorage.getItem("user"));
-//console.log(user);
+
+if (user) {
+  axios.defaults.headers.common['Authorization'] = "Bearer " + user.token;
+}
 
 export default createStore({
   state() {
