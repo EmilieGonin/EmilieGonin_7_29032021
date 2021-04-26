@@ -10,11 +10,16 @@ module.exports = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const userId = decodedToken.userId;
 
-    if (req.body.UserId && req.body.UserId !== userId) {
-      throw "Utilisateur invalide.";
+    if (req.body.isAdmin && req.body.isAdmin == true) {
+      next();
     }
     else {
-      next();
+      if (req.body.UserId && req.body.UserId !== userId) {
+        throw "Utilisateur invalide.";
+      }
+      else {
+        next();
+      }
     }
   }
   catch(e) {
