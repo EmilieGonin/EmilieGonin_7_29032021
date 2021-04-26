@@ -3,8 +3,9 @@ import axios from 'axios'
 
 //localStorage.clear();
 const user = JSON.parse(localStorage.getItem("user"));
+if (user) { authHeader() }
 
-if (user) {
+export function authHeader() {
   axios.defaults.headers.common['Authorization'] = "Bearer " + user.token;
 }
 
@@ -63,6 +64,7 @@ export default createStore({
         .then((response) => {
           const user = response.data;
           localStorage.setItem("user", JSON.stringify(user));
+          authHeader();
           commit("AUTH_SUCCESS", user);
           resolve(response);
         })
@@ -82,6 +84,7 @@ export default createStore({
         .then((response) => {
           const user = response.data;
           localStorage.setItem("user", JSON.stringify(user));
+          authHeader();
           commit("AUTH_SUCCESS", user);
           resolve(response);
         })
