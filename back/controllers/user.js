@@ -1,6 +1,7 @@
 const { User } = require("../middlewares/sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fs = require('fs');
 require("dotenv").config();
 
 exports.getUser = (req, res, next) => {
@@ -51,13 +52,28 @@ exports.userLogin = (req, res, next) => {
   .catch(() => res.status(401).json({ error: "Utilisateur non trouvé." }));
 };
 exports.userUpdate = (req, res, next) => {
-  const user = req.file ?
+  const data = req.file ?
   {
     ...JSON.parse(req.body.user),
-    avatar: `${req.protocol}://${req.get('host')}/back/uploads/${req.file.filename}`
-  } : { ...req.body.user };
+    avatar: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
+  } : { ...JSON.parse(req.body.user) };
 
-  User.update(user, { where: { id: req.params.id } })
+  if (req.file) {
+    User.findByPk(req.params.id)
+    .then((user) => {
+      if (user.avatar) {
+        const filename = user.avatar.split("/uploads")[1];
+        fs.unlink(`uploads/${filename}`, (error) => {
+          if (error) {
+            throw error;
+          }
+        })
+      }
+    })
+    .catch((error) => res.status(500).json({ error: "Impossible de supprimer l'ancien avatar." }));
+  }
+
+  User.update(data, { where: { id: req.params.id } })
   .then((found) => {
     if (found[0]) {
       res.status(200).json({ message: "Utilisateur mis à jour !" });
@@ -69,14 +85,20 @@ exports.userUpdate = (req, res, next) => {
   .catch((error) => res.status(500).json({ error: "Impossible de mettre à jour l'utilisateur." }));
 }
 exports.userDelete = (req, res, next) => {
-  User.destroy({ where: { id: req.params.id } })
-  .then((found) => {
-    if (found) {
-      res.status(200).json({ message: "Utilisateur supprimé !" });
+  User.findByPk(req.params.id)
+  .then((user) => {
+    if (user.avatar) {
+      const filename = user.avatar.split("/uploads")[1];
+      fs.unlink(`uploads/${filename}`, (error) => {
+        if (error) {
+          throw error;
+        }
+      })
     }
-    else {
-      res.status(401).json({ error: "Utilisateur non trouvé." });
-    }
+
+    user.destroy()
+    .then(() => res.status(200).json({ message: "Utilisateur supprimé !" }))
+    .catch((error) => res.status(500).json({ error: "Impossible de supprimer l'utilisateur." }));
   })
-  .catch((error) => res.status(500).json({ error: "Impossible de supprimer l'utilisateur." }));
+  .catch((error) => res.status(500).json({ error: "Utilisateur non trouvé." }));
 }
