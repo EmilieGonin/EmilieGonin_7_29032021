@@ -6,6 +6,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 if (user) { authHeader() }
 
 export function authHeader() {
+  const user = JSON.parse(localStorage.getItem("user"));
   axios.defaults.headers.common['Authorization'] = "Bearer " + user.token;
 }
 
