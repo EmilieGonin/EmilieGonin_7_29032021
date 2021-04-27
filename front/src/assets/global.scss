@@ -37,3 +37,7 @@ input,
 textarea {
   outline: none;
 }
+textarea {
+  font-family: "Roboto", sans-serif;
+  font-size: $font-default;
+}
