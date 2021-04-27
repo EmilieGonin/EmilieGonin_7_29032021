@@ -54,10 +54,12 @@ export default {
     width: 100%;
     background: darken(white, 5%);
     border: none;
+    border-bottom: 2px solid darken(white, 8%);
     padding: 5px 5px 5px 10px;
-    border-radius: 0 0 10px 5px;
+    //border-radius: 0 0 10px 5px;
     &:focus {
       background: darken(white, 10%);
+      border-bottom: 2px solid darken(white, 13%);
     }
   }
   &__button {
