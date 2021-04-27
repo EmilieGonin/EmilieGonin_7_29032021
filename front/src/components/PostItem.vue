@@ -40,7 +40,7 @@ export default {
 @import "@/assets/global.scss";
 
 .post-item {
-  background: $post-color;
+  background: $block-color;
   margin: 15px;
   border-radius: 5px;
   &__header {
