@@ -38,7 +38,7 @@ exports.editPost = (req, res, next) => {
       res.status(200).json({ message: "Post mis à jour !" });
     }
     else {
-      res.status(401).json({ error: "Post non trouvé." });
+      res.status(404).json({ error: "Post non trouvé." });
     }
   })
   .catch((error) => res.status(500).json({ error: "Impossible de mettre à jour le post." }));
