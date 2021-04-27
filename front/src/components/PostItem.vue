@@ -11,6 +11,19 @@
       <router-link class="post-item__name" :to="'/user/' + user.id">
         {{ User.firstName }} {{ User.lastName }}
       </router-link>
+      <div class="post-item__menu">
+        <div class="post-item__menu-button" @click="toggle = !toggle">
+          <i class="fal fa-ellipsis-h"></i>
+        </div>
+        <ul v-show="!toggle" class="post-item__menu-links">
+          <li class="post-item__menu-link post-item__menu-link--delete">
+            <i class="far fa-trash-alt fa-fw"></i> Supprimer
+          </li>
+          <li class="post-item__menu-link">
+            <i class="far fa-pen fa-fw"></i> Modifier
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="post-item__message">
       {{ text }}
@@ -26,6 +39,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "PostItem",
+  data() {
+    return {
+      toggle: true
+    };
+  },
   props: {
     id: Number,
     text: String,
@@ -59,6 +77,63 @@ export default {
     height: $post-avatar;
     border-radius: $post-avatar;
     object-fit: cover;
+  }
+  &__menu {
+    position: relative;
+    margin-left: auto;
+  }
+  &__menu-button {
+    font-size: 20px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    cursor: pointer;
+    &:hover {
+      color: $primary-color;
+      background: fade-out($primary-color, 0.9);
+    }
+  }
+  &__menu-links {
+    position: absolute;
+    left: -10px;
+    margin-top: 10px;
+    padding: 10px;
+    background: $block-color;
+    border-radius: 10px;
+    border: 2px solid $dark-theme;
+    box-shadow: 0 0 3px black;
+    &::before {
+      content: "";
+      position: absolute;
+      top: -12px;
+      left: 11px;
+      border-style: solid;
+      border-width: 0 12px 12px;
+      border-color: $dark-theme transparent;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 13px;
+      border-style: solid;
+      border-width: 0 10px 10px;
+      border-color: $block-color transparent;
+    }
+  }
+  &__menu-link {
+    display: flex;
+    gap: 10px;
+    padding: 5px;
+    align-items: center;
+    cursor: pointer;
+    font-size: $font-default;
+    border-radius: 5px;
+    &:hover {
+      background: fade-out(white, 0.9);
+    }
+    &--delete {
+      color: mix($primary-color, red, 50%);
+    }
   }
   &__message {
     padding: 5px 15px;
