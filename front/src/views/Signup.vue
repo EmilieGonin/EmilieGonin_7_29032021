@@ -1,30 +1,60 @@
 <template>
   <div class="signup">
     <form class="form" @submit="signupForm" action="index.html" method="post">
-      <label>
-        Prénom
-        <input type="text" name="firstName" v-model="firstName" />
-      </label>
-      <label>
-        Nom
-        <input type="text" name="lastName" v-model="lastName" />
-      </label>
-      <label>
-        Adresse email
-        <input type="email" name="email" v-model="email" />
-      </label>
-      <label>
-        Mot de passe
-        <input type="password" name="password" v-model="password" />
-      </label>
-      <button type="submit">S'inscrire</button>
+      <FormItem>
+        <template #title>Inscription</template>
+        <template #fields>
+          <label class="form__label">
+            Prénom
+            <input
+              class="form__input"
+              type="text"
+              name="firstName"
+              v-model="firstName"
+            />
+          </label>
+          <label class="form__label">
+            Nom
+            <input
+              class="form__input"
+              type="text"
+              name="lastName"
+              v-model="lastName"
+            />
+          </label>
+          <label class="form__label">
+            Adresse email
+            <input
+              class="form__input"
+              type="email"
+              name="email"
+              v-model="email"
+            />
+          </label>
+          <label class="form__label">
+            Mot de passe
+            <input
+              class="form__input"
+              type="password"
+              name="password"
+              v-model="password"
+            />
+          </label>
+        </template>
+        <template #button>Se connecter</template>
+      </FormItem>
     </form>
   </div>
 </template>
 
 <script>
+import FormItem from "@/components/FormItem.vue";
+
 export default {
   name: "Signup",
+  components: {
+    FormItem
+  },
   data() {
     return {
       email: "",
