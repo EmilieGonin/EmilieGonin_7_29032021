@@ -8,7 +8,7 @@
         v-if="User.avatar != null"
       />
       <img class="post-item__avatar" src="@/assets/default.jpg" alt="" v-else />
-      <router-link class="post-item__name" :to="'/user/' + user.id">
+      <router-link class="post-item__name" :to="'/user/' + User.id">
         {{ User.firstName }} {{ User.lastName }}
       </router-link>
       <div class="post-item__menu">
