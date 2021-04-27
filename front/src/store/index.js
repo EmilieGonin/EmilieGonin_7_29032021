@@ -98,6 +98,21 @@ export default createStore({
     logout({ commit }) {
       commit("LOGOUT");
       localStorage.removeItem("user");
+    },
+    newpost({ commit }, post) {
+      return new Promise((resolve, reject) => {
+        commit("AUTH_REQUEST");
+        axios.post("http://localhost:3000/api/posts", {
+          text: post.text,
+          UserId: post.UserId
+        })
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+      })
     }
   },
   modules: {
