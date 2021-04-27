@@ -4,31 +4,39 @@
       <FormItem>
         <template #title>Connexion</template>
         <template #fields>
-          <label class="form__label">
-            Adresse email
+          <div class="form__field">
+            <label class="form__label" for="email">Adresse email</label>
             <input
               class="form__input"
               type="email"
               name="email"
               v-model="email"
             />
-          </label>
-          <label class="form__label">
-            Mot de passe
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="password">Mot de passe</label>
             <input
               class="form__input"
               type="password"
               name="password"
               v-model="password"
             />
-          </label>
+          </div>
         </template>
-        <template #button>Se connecter</template>
+        <template #button>
+          Se connecter <i class="fad fa-sign-in-alt"></i>
+        </template>
+        <template #text>
+          <span class="form__text">
+            Vous n'avez pas de compte ?
+            <router-link class="form__link" to="/signup">
+              Inscrivez-vous
+            </router-link>
+            dès maintenant !
+          </span>
+        </template>
       </FormItem>
     </form>
-    <router-link to="/signup">
-      S'inscrire
-    </router-link>
   </div>
 </template>
 
