@@ -13,7 +13,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 // Importing the global css file
 @import "@/assets/global.scss";
 
