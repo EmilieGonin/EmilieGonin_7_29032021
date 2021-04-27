@@ -78,7 +78,8 @@ export default {
   }
 }
 .view {
-  width: 700px;
+  width: 100%;
+  max-width: 700px;
   margin: auto;
 }
 </style>
