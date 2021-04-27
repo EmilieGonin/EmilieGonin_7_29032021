@@ -56,7 +56,6 @@ export default {
     border: none;
     border-bottom: 2px solid darken(white, 8%);
     padding: 5px 5px 5px 10px;
-    //border-radius: 0 0 10px 5px;
     &:focus {
       background: darken(white, 10%);
       border-bottom: 2px solid darken(white, 13%);
@@ -71,6 +70,9 @@ export default {
     padding: 10px;
     border: none;
     margin-top: 15px;
+    &:hover {
+      background: lighten($primary-color, 5%);
+    }
   }
   &__text {
     position: relative;

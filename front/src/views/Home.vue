@@ -103,6 +103,9 @@ export default {
     border: none;
     border-radius: 5px;
     align-self: flex-end;
+    &:hover {
+      background: lighten($primary-color, 5%);
+    }
   }
 }
 </style>
