@@ -30,7 +30,9 @@ export default {
       this.$store
         .dispatch("login", user)
         .then(() => this.$router.push("/"))
-        .catch(() => console.error("error"));
+        .catch(() =>
+          console.error("Une erreur s'est produite dans la connexion.")
+        );
     }
   }
 };

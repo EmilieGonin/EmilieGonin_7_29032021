@@ -33,7 +33,9 @@ export default {
       this.$store
         .dispatch("signup", user)
         .then(() => this.$router.push("/"))
-        .catch(() => console.error("error"));
+        .catch(() =>
+          console.error("Une erreur s'est produite pendant l'inscription.")
+        );
     }
   }
 };
