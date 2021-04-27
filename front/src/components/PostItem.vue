@@ -11,7 +11,7 @@
       <router-link class="post-item__name" :to="'/user/' + User.id">
         {{ User.firstName }} {{ User.lastName }}
       </router-link>
-      <div class="post-item__menu">
+      <div class="post-item__menu" v-if="User.id == user.id">
         <div class="post-item__menu-button" @click="toggle = !toggle">
           <i class="fal fa-ellipsis-h"></i>
         </div>
