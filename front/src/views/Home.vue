@@ -53,6 +53,9 @@ export default {
         text: this.text,
         UserId: this.$store.getters.user.id
       };
+      if (post.text == "") {
+        throw "Le post ne peut être vide.";
+      }
       this.$store
         .dispatch("newpost", post)
         .then(() => this.$store.dispatch("getPosts"))
