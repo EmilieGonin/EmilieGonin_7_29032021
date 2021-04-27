@@ -1,10 +1,22 @@
 <template>
   <div class="signup">
     <form class="form" @submit="signupForm" action="index.html" method="post">
-      <input type="text" name="firstName" id="firstName" v-model="firstName" />
-      <input type="text" name="lastName" id="lastName" v-model="lastName" />
-      <input type="email" name="email" id="email" v-model="email" />
-      <input type="password" name="password" id="password" v-model="password" />
+      <label>
+        Prénom
+        <input type="text" name="firstName" v-model="firstName" />
+      </label>
+      <label>
+        Nom
+        <input type="text" name="lastName" v-model="lastName" />
+      </label>
+      <label>
+        Adresse email
+        <input type="email" name="email" v-model="email" />
+      </label>
+      <label>
+        Mot de passe
+        <input type="password" name="password" v-model="password" />
+      </label>
       <button type="submit">S'inscrire</button>
     </form>
   </div>

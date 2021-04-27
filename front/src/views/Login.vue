@@ -1,8 +1,14 @@
 <template>
   <div class="login">
     <form class="form" @submit="loginForm" action="index.html" method="post">
-      <input type="email" name="email" id="email" v-model="email" />
-      <input type="password" name="password" id="password" v-model="password" />
+      <label>
+        Adresse email
+        <input type="email" name="email" v-model="email" />
+      </label>
+      <label>
+        Mot de passe
+        <input type="password" name="password" v-model="password" />
+      </label>
       <button type="submit">Se connecter</button>
     </form>
     <router-link to="/signup">
