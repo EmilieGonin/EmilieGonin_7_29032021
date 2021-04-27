@@ -113,6 +113,22 @@ export default createStore({
           reject(error);
         })
       })
+    },
+    deletePost({ commit }, post) {
+      return new Promise((resolve, reject) => {
+        commit("AUTH_REQUEST");
+        axios.delete("http://localhost:3000/api/posts/" + post.id, {
+          data: {
+            UserId: post.UserId
+          }
+        })
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+      })
     }
   },
   modules: {

@@ -16,10 +16,13 @@
           <i class="fal fa-ellipsis-h"></i>
         </div>
         <ul v-show="!toggle" class="post-item__menu-links">
-          <li class="post-item__menu-link post-item__menu-link--delete">
+          <li
+            class="post-item__menu-link post-item__menu-link--delete"
+            @click="deletePost(id, User.id)"
+          >
             <i class="far fa-trash-alt fa-fw"></i> Supprimer
           </li>
-          <li class="post-item__menu-link">
+          <li class="post-item__menu-link" @click="editPost(id, User.id)">
             <i class="far fa-pen fa-fw"></i> Modifier
           </li>
         </ul>
@@ -49,7 +52,37 @@ export default {
     text: String,
     User: Object
   },
-  computed: mapGetters(["user"])
+  computed: mapGetters(["user"]),
+  methods: {
+    deletePost(postId, userId) {
+      const post = {
+        id: postId,
+        UserId: userId
+      };
+      this.$store
+        .dispatch("deletePost", post)
+        .then(() => this.$store.dispatch("getPosts"))
+        .catch(() =>
+          console.error(
+            "Une erreur s'est produite pendant la suppression du post."
+          )
+        );
+    },
+    editPost(postId, userId) {
+      const post = {
+        id: postId,
+        UserId: userId
+      };
+      this.$store
+        .dispatch("editPost", post)
+        .then(() => this.$store.dispatch("getPosts"))
+        .catch(() =>
+          console.error(
+            "Une erreur s'est produite pendant la modification du post."
+          )
+        );
+    }
+  }
 };
 </script>
 
