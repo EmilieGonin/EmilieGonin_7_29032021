@@ -6,7 +6,7 @@ exports.newComment = (req, res, next) => {
     post.createComment({
       text: req.body.text
     })
-    .then((comment) => comment.setUser(post.UserId))
+    .then((comment) => comment.setUser(req.body.userId))
     .then(() => res.status(201).json({ message: "Commentaire créé !" }))
     .catch(() => res.status(400).json({ error: "Impossible d'enregistrer le commentaire dans la base de données." }));
   })
