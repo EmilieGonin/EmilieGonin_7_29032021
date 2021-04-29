@@ -21,5 +21,6 @@ app.use(bodyParser.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/user', require("./routes/user"));
 app.use('/api/posts', require("./routes/posts"));
+app.use('/api/comment', require("./routes/comment"));
 
 module.exports = app;
