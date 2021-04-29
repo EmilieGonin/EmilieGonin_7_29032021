@@ -13,13 +13,13 @@ db.User = require("../models/User")(sequelize, Sequelize);
 db.Post = require("../models/Post")(sequelize, Sequelize);
 db.Comment = require("../models/Comment")(sequelize, Sequelize);
 
-db.User.hasMany(db.Comment, { foreignKey: { allowNull: false } });
+db.User.hasMany(db.Comment, { onDelete: "CASCADE" });
 db.Comment.belongsTo(db.User);
 
-db.User.hasMany(db.Post, { foreignKey: { allowNull: false } });
+db.User.hasMany(db.Post, { onDelete: "CASCADE" });
 db.Post.belongsTo(db.User);
 
-db.Post.hasMany(db.Comment, { foreignKey: { allowNull: false } });
+db.Post.hasMany(db.Comment, { onDelete: "CASCADE" });
 db.Comment.belongsTo(db.Post);
 
 sequelize.authenticate()
