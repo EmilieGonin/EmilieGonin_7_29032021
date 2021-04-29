@@ -1,4 +1,4 @@
-const { User, Post, Comment } = require("../middlewares/sequelize");
+const { Post, Comment } = require("../middlewares/sequelize");
 
 exports.newComment = (req, res, next) => {
   Post.findByPk(req.body.postId)
