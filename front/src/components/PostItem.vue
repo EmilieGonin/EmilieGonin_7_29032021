@@ -13,7 +13,7 @@
       </router-link>
       <div class="post-item__menu" v-if="User.id == user.id">
         <div class="post-item__menu-button" @click="toggle = !toggle">
-          <i class="fal fa-ellipsis-h"></i>
+          <i class="fal fa-ellipsis-h fa-fw"></i>
         </div>
         <ul v-show="!toggle" class="post-item__menu-links">
           <li
@@ -117,7 +117,7 @@ export default {
   }
   &__menu-button {
     font-size: 20px;
-    padding: 2px 8px;
+    padding: 2px;
     border-radius: 20px;
     cursor: pointer;
     &:hover {
