@@ -20,7 +20,13 @@
           </template>
         </ResizeAuto>
       </div>
-      <button class="newpost__button" type="submit">Envoyer</button>
+      <div class="newpost__buttons">
+        <input type="file" id="upload" class="hidden" />
+        <label for="upload" class="newpost__upload-button">
+          <i class="far fa-image-polaroid fa-fw"></i>
+        </label>
+        <button class="newpost__button" type="submit">Envoyer</button>
+      </div>
     </form>
     <PostItem v-for="post in posts" v-bind="post" :key="post.id" />
   </div>
@@ -95,6 +101,22 @@ export default {
     padding: 10px;
     resize: none;
     overflow: hidden;
+  }
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+  }
+  &__upload-button {
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    color: $primary-color;
+    &:hover {
+      background: fade-out($primary-color, 0.9);
+    }
   }
   &__button {
     cursor: pointer;
