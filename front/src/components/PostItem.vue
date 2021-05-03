@@ -31,9 +31,7 @@
     <div class="post-item__message">
       {{ text }}
     </div>
-    <div class="post-item__media" v-if="file != null">
-      <img :src="file" />
-    </div>
+    <img class="post-item__file" :src="file" v-if="file != null" />
     <div class="post-item__comments">
       <router-link :to="'/post/' + id">2 commentaires</router-link>
     </div>
@@ -173,8 +171,12 @@ export default {
     }
   }
   &__message {
-    padding: 5px 15px;
+    padding: 5px 15px 15px 15px;
     font-size: $font-default;
+  }
+  &__file {
+    width: 100%;
+    object-fit: cover;
   }
   &__comments {
     font-size: $font-mini;
