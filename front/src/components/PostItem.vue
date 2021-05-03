@@ -59,7 +59,7 @@ export default {
     deletePost(postId, userId) {
       const post = {
         id: postId,
-        UserId: userId
+        userId: userId
       };
       this.$store
         .dispatch("deletePost", post)
