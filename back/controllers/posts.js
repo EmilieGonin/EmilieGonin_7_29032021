@@ -21,10 +21,17 @@ exports.getPost = (req, res, next) => {
   .catch((error) => res.status(500).json({ error: "Impossible d'afficher le post." }));
 };
 exports.newPost = (req, res, next) => {
-  User.findByPk(req.body.UserId)
+  const data = req.file ?
+  {
+    ...JSON.parse(req.body.post),
+    file: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
+  } : { ...JSON.parse(req.body.post) };
+
+  User.findByPk(data.userId)
   .then(user => {
     user.createPost({
-      text: req.body.text
+      text: data.text,
+      file: data.file
     })
     .then(() => res.status(201).json({ message: "Post créé !" }))
     .catch(() => res.status(400).json({ error: "Impossible d'enregistrer le post dans la base de données." }));

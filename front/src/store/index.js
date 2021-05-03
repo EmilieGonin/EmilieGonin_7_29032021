@@ -102,9 +102,10 @@ export default createStore({
     newpost({ commit }, post) {
       return new Promise((resolve, reject) => {
         commit("AUTH_REQUEST");
-        axios.post("http://localhost:3000/api/posts", {
-          text: post.text,
-          UserId: post.UserId
+        axios.post("http://localhost:3000/api/posts", post, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         })
         .then((response) => {
           resolve(response);

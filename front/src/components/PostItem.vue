@@ -31,6 +31,9 @@
     <div class="post-item__message">
       {{ text }}
     </div>
+    <div class="post-item__media" v-if="file != null">
+      <img :src="file" />
+    </div>
     <div class="post-item__comments">
       <router-link :to="'/post/' + id">2 commentaires</router-link>
     </div>
@@ -50,6 +53,7 @@ export default {
   props: {
     id: Number,
     text: String,
+    file: String,
     User: Object
   },
   computed: mapGetters(["user"]),
