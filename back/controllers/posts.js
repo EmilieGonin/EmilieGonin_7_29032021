@@ -1,4 +1,5 @@
 const { User, Post, Comment } = require("../middlewares/sequelize");
+const fs = require('fs');
 
 exports.getAllPosts = (req, res, next) => {
   Post.findAll({
@@ -51,14 +52,20 @@ exports.editPost = (req, res, next) => {
   .catch((error) => res.status(500).json({ error: "Impossible de mettre à jour le post." }));
 };
 exports.deletePost = (req, res, next) => {
-  Post.destroy({ where: { id: req.params.id } })
-  .then((found) => {
-    if (found) {
-      res.status(200).json({ message: "Post supprimé !" });
+  Post.findByPk(req.params.id)
+  .then((post) => {
+    if (post.file) {
+      const filename = post.file.split("/uploads")[1];
+      fs.unlinkSync(`uploads/${filename}`, (error) => {
+        if (error) {
+          throw error;
+        }
+      })
     }
-    else {
-      res.status(401).json({ error: "Post non trouvé." });
-    }
+
+    post.destroy()
+    .then(() => res.status(200).json({ message: "Post supprimé !" }))
+    .catch((error) => res.status(500).json({ error: "Impossible de supprimer le post" }));
   })
-  .catch((error) => res.status(500).json({ error: "Impossible de supprimer le post." }));
+  .catch((error) => res.status(500).json({ error: "Post non trouvé." }));
 };
