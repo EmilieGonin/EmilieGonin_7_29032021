@@ -4,6 +4,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false
     },
+    file: {
+      type: DataTypes.TEXT
+    },
     likes: {
       type: DataTypes.INTEGER,
       allowNull: false,
