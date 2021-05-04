@@ -26,6 +26,12 @@
           </template>
         </ResizeAuto>
       </div>
+      <div class="newpost__preview-container" v-if="preview">
+        <div class="newpost__delete-preview" @click="removeFile()">
+          <i class="fas fa-times fa-fw"></i>
+        </div>
+        <img class="newpost__preview" :src="preview" />
+      </div>
       <div class="newpost__buttons">
         <input
           type="file"
@@ -58,7 +64,8 @@ export default {
   data() {
     return {
       text: "",
-      file: ""
+      file: "",
+      preview: ""
     };
   },
   computed: mapGetters(["user", "posts", "isLoggedIn"]),
@@ -68,6 +75,11 @@ export default {
   methods: {
     handleFile() {
       this.file = this.$refs.file.files[0];
+      this.preview = URL.createObjectURL(this.file);
+    },
+    removeFile() {
+      this.file = "";
+      this.preview = "";
     },
     newpost(e) {
       e.preventDefault();
@@ -85,7 +97,11 @@ export default {
       formData.append("post", JSON.stringify(post));
       this.$store
         .dispatch("newpost", formData)
-        .then(() => this.$store.dispatch("getPosts"))
+        .then(() => {
+          this.$store.dispatch("getPosts");
+          this.file = "";
+          this.preview = "";
+        })
         .catch(() =>
           console.error("Une erreur s'est produite pendant l'envoi du post.")
         );
@@ -104,9 +120,9 @@ export default {
   background: $block-color;
   margin: 15px;
   border-radius: 5px;
-  padding: 10px;
   &__post {
     display: flex;
+    padding: 10px;
   }
   &__avatar {
     width: $post-avatar;
@@ -128,6 +144,24 @@ export default {
     justify-content: flex-end;
     align-items: center;
     gap: 20px;
+    padding: 10px;
+  }
+  &__preview-container {
+    position: relative;
+  }
+  &__preview {
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+  }
+  &__delete-preview {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    background: $primary-color;
   }
   &__upload-button {
     font-size: 20px;
