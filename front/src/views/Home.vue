@@ -6,7 +6,7 @@
           class="newpost__avatar"
           :src="user.avatar"
           alt=""
-          v-if="user.avatar != null"
+          v-if="isLoggedIn && user.avatar != null"
         />
         <img class="newpost__avatar" src="@/assets/default.jpg" alt="" v-else />
         <ResizeAuto>
