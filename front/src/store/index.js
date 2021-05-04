@@ -116,7 +116,6 @@ export default createStore({
       })
     },
     deletePost({ commit }, post) {
-      console.log(post.id);
       return new Promise((resolve, reject) => {
         commit("AUTH_REQUEST");
         axios.delete("http://localhost:3000/api/posts/" + post.id, {
