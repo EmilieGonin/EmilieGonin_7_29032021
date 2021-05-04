@@ -1,6 +1,12 @@
 <template>
   <div>
-    <form class="newpost" @submit="newpost" action="index.html" method="post">
+    <form
+      class="newpost"
+      @submit="newpost"
+      enctype="multipart/form-data"
+      action="index.html"
+      method="post"
+    >
       <div class="newpost__post">
         <img
           class="newpost__avatar"
@@ -21,8 +27,14 @@
         </ResizeAuto>
       </div>
       <div class="newpost__buttons">
-        <input type="file" id="upload" class="hidden" />
-        <label for="upload" class="newpost__upload-button">
+        <input
+          type="file"
+          id="file"
+          ref="file"
+          @change="handleFile()"
+          class="hidden"
+        />
+        <label for="file" class="newpost__upload-button">
           <i class="far fa-image-polaroid fa-fw"></i>
         </label>
         <button class="newpost__button" type="submit">Envoyer</button>
@@ -33,7 +45,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import PostItem from "@/components/PostItem.vue";
 import ResizeAuto from "@/components/ResizeAuto.vue";
 
@@ -45,25 +57,34 @@ export default {
   },
   data() {
     return {
-      text: ""
+      text: "",
+      file: ""
     };
   },
-  computed: mapState(["user", "posts"]),
+  computed: mapGetters(["user", "posts", "isLoggedIn"]),
   mounted() {
     this.$store.dispatch("getPosts");
   },
   methods: {
+    handleFile() {
+      this.file = this.$refs.file.files[0];
+    },
     newpost(e) {
       e.preventDefault();
       const post = {
         text: this.text,
-        UserId: this.$store.getters.user.id
+        userId: this.$store.getters.user.id
       };
       if (post.text == "") {
         throw "Le post ne peut être vide.";
       }
+      const formData = new FormData();
+      if (this.file != "") {
+        formData.append("file", this.file);
+      }
+      formData.append("post", JSON.stringify(post));
       this.$store
-        .dispatch("newpost", post)
+        .dispatch("newpost", formData)
         .then(() => this.$store.dispatch("getPosts"))
         .catch(() =>
           console.error("Une erreur s'est produite pendant l'envoi du post.")
