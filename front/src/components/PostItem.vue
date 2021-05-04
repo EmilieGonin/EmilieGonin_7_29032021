@@ -180,6 +180,7 @@ export default {
   }
   &__file {
     width: 100%;
+    max-height: 350px;
     object-fit: cover;
   }
   &__comments {
