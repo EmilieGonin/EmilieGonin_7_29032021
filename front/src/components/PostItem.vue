@@ -11,7 +11,7 @@
       <router-link class="post-item__name" :to="'/user/' + User.id">
         {{ User.firstName }} {{ User.lastName }}
       </router-link>
-      <div class="post-item__menu" v-if="User.id == user.id">
+      <div class="post-item__menu" v-if="User.id == user.id || user.isAdmin">
         <div class="post-item__menu-button" @click="toggle = !toggle">
           <i class="fal fa-ellipsis-h fa-fw"></i>
         </div>
@@ -22,7 +22,11 @@
           >
             <i class="far fa-trash-alt fa-fw"></i> Supprimer
           </li>
-          <li class="post-item__menu-link" @click="editPost(id, User.id)">
+          <li
+            class="post-item__menu-link"
+            @click="editPost(id, User.id)"
+            v-if="User.id == user.id"
+          >
             <i class="far fa-pen fa-fw"></i> Modifier
           </li>
         </ul>
