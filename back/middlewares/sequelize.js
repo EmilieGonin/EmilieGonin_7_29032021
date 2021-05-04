@@ -1,4 +1,6 @@
 const { Sequelize } = require("sequelize");
+const bcrypt = require("bcrypt");
+require("dotenv").config();
 
 module.exports = db = {};
 
@@ -27,5 +29,24 @@ sequelize.authenticate()
 .catch((error) => console.error("Impossible de se connecter à la base de données :", error));
 
 sequelize.sync({ force: true })
-.then(() => console.log("Base de données synchronisée avec succès !"))
+.then(() => {
+  console.log("Base de données synchronisée avec succès !");
+
+  //Create admin user
+  db.User.findByPk(1)
+  .then((user) => {
+    if (!user) {
+      bcrypt.hash(process.env.ADMIN_PASSWORD, 10)
+      .then((hash) => {
+        db.User.create({
+          firstName: "Admin",
+          lastName: "Admin",
+          email: "admin@email.com",
+          password: hash,
+          isAdmin: true
+        })
+      })
+    }
+  })
+})
 .catch((error) => console.error(error));
