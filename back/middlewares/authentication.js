@@ -14,12 +14,11 @@ module.exports = (req, res, next) => {
     User.findByPk(userId)
     .then((user) => {
       if (user) {
+        req.userId = userId;
         next();
       }
-      else {
-        throw "Utilisateur inexistant."
-      }
-    });
+    })
+    .catch((error) => res.status(404).json({ error: "Utilisateur inexistant." }));
   }
   catch(e) {
     res.status(401).json({ error: e });
