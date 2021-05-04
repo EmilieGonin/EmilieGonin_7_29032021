@@ -1,5 +1,5 @@
 <template>
-  <div class="post-item">
+  <div class="post-item" v-if="isLoggedIn">
     <div class="post-item__header">
       <img
         class="post-item__avatar"
@@ -54,7 +54,7 @@ export default {
     file: String,
     User: Object
   },
-  computed: mapGetters(["user"]),
+  computed: mapGetters(["user", "isLoggedIn"]),
   methods: {
     deletePost(postId, userId) {
       const post = {
