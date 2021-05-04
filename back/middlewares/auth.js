@@ -1,3 +1,4 @@
+const { User } = require("../middlewares/sequelize");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -10,17 +11,15 @@ module.exports = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const userId = decodedToken.userId;
 
-    if (req.body.isAdmin && req.body.isAdmin == true) {
-      next();
-    }
-    else {
-      if (req.body.UserId && req.body.UserId !== userId) {
-        throw "Utilisateur invalide.";
-      }
-      else {
+    User.findByPk(userId)
+    .then((user) => {
+      if (user) {
         next();
       }
-    }
+      else {
+        throw "Utilisateur inexistant."
+      }
+    });
   }
   catch(e) {
     res.status(401).json({ error: e });
