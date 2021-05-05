@@ -107,6 +107,7 @@ export default {
         .dispatch("newpost", formData)
         .then(() => {
           this.$store.dispatch("getPosts");
+          this.text = "";
           this.file = "";
           this.preview = "";
         })
