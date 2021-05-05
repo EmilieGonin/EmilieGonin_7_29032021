@@ -39,13 +39,20 @@
       </div>
     </div>
     <!--Message-->
-    <router-link class="post-item__message" :to="'/post/' + id">
+    <router-link
+      :to="'/post/' + id"
+      class="post-item__message"
+      v-if="!isPostPage()"
+    >
       {{ text }}
     </router-link>
+    <div class="post-item__message" v-else>
+      {{ text }}
+    </div>
     <!--File-->
     <img class="post-item__file" :src="file" v-if="file != null" />
     <!--Comments-->
-    <div class="post-item__comments">
+    <div class="post-item__comments" v-if="!isPostPage()">
       <router-link :to="'/post/' + id" v-if="Comments.length > 0">
         {{ Comments.length }}
         <span v-if="Comments.length > 1">commentaires</span>
@@ -75,6 +82,11 @@ export default {
   },
   computed: mapGetters(["user", "isLoggedIn"]),
   methods: {
+    isPostPage() {
+      if (this.$route.params.id) {
+        return true;
+      }
+    },
     deletePost(postId, userId) {
       const post = {
         id: postId,
