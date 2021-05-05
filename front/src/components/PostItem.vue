@@ -1,27 +1,33 @@
 <template>
   <div class="post-item" v-if="isLoggedIn">
+    <!--Header-->
     <div class="post-item__header">
+      <!--Avatar-->
       <img
+        v-if="User.avatar != null"
         class="post-item__avatar"
         v-bind:src="User.avatar"
         alt=""
-        v-if="User.avatar != null"
       />
       <img class="post-item__avatar" src="@/assets/default.jpg" alt="" v-else />
+      <!--Name-->
       <router-link class="post-item__name" :to="'/user/' + User.id">
         {{ User.firstName }} {{ User.lastName }}
       </router-link>
+      <!--Menu-->
       <div class="post-item__menu" v-if="User.id == user.id || user.isAdmin">
         <div class="post-item__menu-button" @click="toggle = !toggle">
           <i class="fal fa-ellipsis-h fa-fw"></i>
         </div>
         <ul v-show="!toggle" class="post-item__menu-links">
+          <!--Delete button-->
           <li
             class="post-item__menu-link post-item__menu-link--delete"
             @click="deletePost(id, User.id)"
           >
             <i class="far fa-trash-alt fa-fw"></i> Supprimer
           </li>
+          <!--Edit button-->
           <li
             class="post-item__menu-link"
             @click="editPost(id, User.id)"
@@ -32,12 +38,20 @@
         </ul>
       </div>
     </div>
-    <div class="post-item__message">
+    <!--Message-->
+    <router-link class="post-item__message" :to="'/post/' + id">
       {{ text }}
-    </div>
+    </router-link>
+    <!--File-->
     <img class="post-item__file" :src="file" v-if="file != null" />
+    <!--Comments-->
     <div class="post-item__comments">
-      <router-link :to="'/post/' + id">2 commentaires</router-link>
+      <router-link :to="'/post/' + id" v-if="Comments.length > 0">
+        {{ Comments.length }}
+        <span v-if="Comments.length > 1">commentaires</span>
+        <span v-else>commentaire</span>
+      </router-link>
+      <router-link :to="'/post/' + id" v-else>Aucun commentaire</router-link>
     </div>
   </div>
 </template>
@@ -56,7 +70,8 @@ export default {
     id: Number,
     text: String,
     file: String,
-    User: Object
+    User: Object,
+    Comments: Array
   },
   computed: mapGetters(["user", "isLoggedIn"]),
   methods: {
@@ -175,6 +190,7 @@ export default {
     }
   }
   &__message {
+    display: block;
     padding: 5px 15px 15px 15px;
     font-size: $font-default;
   }
