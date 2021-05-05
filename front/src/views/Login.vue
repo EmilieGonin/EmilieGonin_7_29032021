@@ -1,9 +1,13 @@
 <template>
   <div class="login">
+    <!--Login Form-->
     <form class="form" @submit="loginForm" action="index.html" method="post">
       <FormItem>
+        <!--Title-->
         <template #title>Connexion</template>
+        <!--Fields-->
         <template #fields>
+          <!--Email-->
           <div class="form__field">
             <label class="form__label" for="email">Adresse email</label>
             <input
@@ -13,6 +17,7 @@
               v-model="email"
             />
           </div>
+          <!--Password-->
           <div class="form__field">
             <label class="form__label" for="password">Mot de passe</label>
             <input
@@ -23,9 +28,11 @@
             />
           </div>
         </template>
+        <!--Submit Button-->
         <template #button>
           Se connecter <i class="fad fa-sign-in-alt"></i>
         </template>
+        <!--Additionnal Text-->
         <template #text>
           <span class="form__text">
             Vous n'avez pas de compte ?

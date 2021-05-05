@@ -1,6 +1,9 @@
 <template>
+  <!--Loading Needed-->
   <div v-if="!loading">
+    <!--Post-->
     <PostItem v-bind="post"></PostItem>
+    <!--Comments-->
     <CommentItem
       v-for="comment in post.Comments"
       v-bind="comment"

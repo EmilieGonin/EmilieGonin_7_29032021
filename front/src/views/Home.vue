@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--New Post Form-->
     <form
       class="newpost"
       @submit="newpost"
@@ -8,6 +9,7 @@
       method="post"
     >
       <div class="newpost__post">
+        <!--Avatar-->
         <img
           class="newpost__avatar"
           :src="user.avatar"
@@ -15,6 +17,7 @@
           v-if="isLoggedIn && user.avatar != null"
         />
         <img class="newpost__avatar" src="@/assets/default.jpg" alt="" v-else />
+        <!--ResizeAuto Message Input-->
         <ResizeAuto>
           <template v-slot:default="{ resize }">
             <textarea
@@ -26,13 +29,16 @@
           </template>
         </ResizeAuto>
       </div>
+      <!--Uploaded File Preview-->
       <div class="newpost__preview-container" v-if="preview">
         <div class="newpost__delete-preview" @click="removeFile()">
           <i class="fas fa-times fa-fw"></i>
         </div>
         <img class="newpost__preview" :src="preview" />
       </div>
+      <!--Buttons-->
       <div class="newpost__buttons">
+        <!--File Upload-->
         <input
           type="file"
           id="file"
@@ -43,9 +49,11 @@
         <label for="file" class="newpost__upload-button">
           <i class="far fa-image-polaroid fa-fw"></i>
         </label>
+        <!--Submit Button-->
         <button class="newpost__button" type="submit">Envoyer</button>
       </div>
     </form>
+    <!--Posts-->
     <PostItem v-for="post in posts" v-bind="post" :key="post.id"></PostItem>
   </div>
 </template>

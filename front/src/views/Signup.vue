@@ -1,9 +1,13 @@
 <template>
   <div class="signup">
+    <!--Signup Form-->
     <form class="form" @submit="signupForm" action="index.html" method="post">
       <FormItem>
+        <!--Title-->
         <template #title>Inscription</template>
+        <!--Fields-->
         <template #fields>
+          <!--First Name-->
           <div class="form__field">
             <label class="form__label">Prénom</label>
             <input
@@ -13,6 +17,7 @@
               v-model="firstName"
             />
           </div>
+          <!--Last Name-->
           <div class="form__field">
             <label class="form__label">Nom</label>
             <input
@@ -22,6 +27,7 @@
               v-model="lastName"
             />
           </div>
+          <!--Email-->
           <div class="form__field">
             <label class="form__label">Adresse email</label>
             <input
@@ -31,6 +37,7 @@
               v-model="email"
             />
           </div>
+          <!--Password-->
           <div class="form__field">
             <label class="form__label">Mot de passe</label>
             <input
@@ -41,6 +48,7 @@
             />
           </div>
         </template>
+        <!--Submit Button-->
         <template #button>
           S'inscrire <i class="fad fa-sign-in-alt"></i>
         </template>
