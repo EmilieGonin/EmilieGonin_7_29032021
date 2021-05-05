@@ -46,7 +46,7 @@
         <button class="newpost__button" type="submit">Envoyer</button>
       </div>
     </form>
-    <PostItem v-for="post in posts" v-bind="post" :key="post.id" />
+    <PostItem v-for="post in posts" v-bind="post" :key="post.id"></PostItem>
   </div>
 </template>
 
