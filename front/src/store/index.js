@@ -66,10 +66,8 @@ export default createStore({
       })
     },
     getPost({ commit }, { postId }) {
-      console.log(postId);
       axios.get("http://localhost:3000/api/posts/" + postId)
       .then(response => {
-        console.log(response.data.post);
         commit("SET_POST", response.data.post);
       })
     },
@@ -143,6 +141,18 @@ export default createStore({
             userId: post.userId
           }
         })
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+      })
+    },
+    newcomment({ commit }, comment) {
+      return new Promise((resolve, reject) => {
+        commit("AUTH_REQUEST");
+        axios.post("http://localhost:3000/api/comment", comment)
         .then((response) => {
           resolve(response);
         })
