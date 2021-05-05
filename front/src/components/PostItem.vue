@@ -53,6 +53,7 @@
     <img class="post-item__file" :src="file" v-if="file != null" />
     <!--Comments-->
     <div class="post-item__comments" v-if="!isPostPage()">
+      <router-link :to="'/post/' + id" class="fas fa-comments"></router-link>
       <router-link :to="'/post/' + id" v-if="Comments.length > 0">
         {{ Comments.length }}
         <span v-if="Comments.length > 1">commentaires</span>
@@ -212,6 +213,9 @@ export default {
     object-fit: cover;
   }
   &__comments {
+    display: flex;
+    gap: 10px;
+    align-items: center;
     font-size: $font-mini;
     padding: 15px;
   }
