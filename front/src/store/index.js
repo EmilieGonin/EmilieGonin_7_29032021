@@ -14,22 +14,34 @@ export default createStore({
   state() {
     return {
       posts: [],
+      post: {},
       user: user,
-      status: ""
+      status: "",
+      loading: true
     }
   },
   getters: {
     posts: state => {
       return state.posts;
     },
+    post: state => {
+      return state.post;
+    },
     user: state => {
       return state.user.user;
+    },
+    loading: state => {
+      return state.loading;
     },
     isLoggedIn: state => !!state.user
   },
   mutations: {
     SET_POSTS(state, posts) {
       state.posts = posts;
+    },
+    SET_POST(state, post) {
+      state.post = post;
+      state.loading = false;
     },
     AUTH_REQUEST(state) {
       state.status = "pending";
@@ -51,6 +63,14 @@ export default createStore({
       axios.get("http://localhost:3000/api/posts")
       .then(response => {
         commit("SET_POSTS", response.data.posts)
+      })
+    },
+    getPost({ commit }, { postId }) {
+      console.log(postId);
+      axios.get("http://localhost:3000/api/posts/" + postId)
+      .then(response => {
+        console.log(response.data.post);
+        commit("SET_POST", response.data.post);
       })
     },
     signup({ commit }, user) {
