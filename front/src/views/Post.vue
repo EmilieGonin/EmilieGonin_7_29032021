@@ -7,7 +7,6 @@
     <form
       class="newcomment"
       @submit="newcomment"
-      enctype="multipart/form-data"
       action="index.html"
       method="post"
     >
@@ -37,7 +36,6 @@
           </template>
         </ResizeAuto>
       </div>
-      <!--Buttons-->
       <!--Submit Button-->
       <button class="newcomment__button" type="submit">Envoyer</button>
     </form>
