@@ -5,6 +5,7 @@ $tertiary-color: #bab6ae;
 $font-color: darken(white, 5%);
 $dark-theme: lighten(black, 15%);
 $block-color: darken($dark-theme, 5%);
+$error-color: darken($primary-color, 15%);
 
 //Element sizes
 $nav-size: 35px;

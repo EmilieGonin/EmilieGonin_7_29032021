@@ -17,7 +17,8 @@ export default createStore({
       post: {},
       user: user,
       status: "",
-      loading: true
+      loading: true,
+      error: ""
     }
   },
   getters: {
@@ -32,6 +33,11 @@ export default createStore({
     },
     loading: state => {
       return state.loading;
+    },
+    error: state => {
+      if (state.status == "error") {
+        return state.error;
+      }
     },
     isLoggedIn: state => !!state.user
   },
@@ -50,12 +56,16 @@ export default createStore({
       state.user = user;
       state.status = "success";
     },
-    AUTH_ERROR(state) {
-      state.status = "error";
-    },
     LOGOUT(state) {
       state.status = "";
       state.user = null;
+    },
+    SUCCESS(state) {
+      state.status = "success";
+    },
+    ERROR(state, error) {
+      state.status = "error";
+      state.error = "Erreur : " + error;
     }
   },
   actions: {
@@ -88,7 +98,7 @@ export default createStore({
           resolve(response);
         })
         .catch((error) => {
-          commit("AUTH_ERROR", error);
+          commit("ERROR", error.response.data.error);
           reject(error);
         })
       })
@@ -108,7 +118,7 @@ export default createStore({
           resolve(response);
         })
         .catch((error) => {
-          commit("AUTH_ERROR", error);
+          commit("ERROR", error.response.data.error);
           reject(error);
         })
       })
@@ -126,9 +136,11 @@ export default createStore({
           }
         })
         .then((response) => {
+          commit("SUCCESS");
           resolve(response);
         })
         .catch((error) => {
+          commit("ERROR", error.response.data.error);
           reject(error);
         })
       })
@@ -142,9 +154,11 @@ export default createStore({
           }
         })
         .then((response) => {
+          commit("SUCCESS");
           resolve(response);
         })
         .catch((error) => {
+          commit("ERROR", error.response.data.error);
           reject(error);
         })
       })
@@ -154,12 +168,17 @@ export default createStore({
         commit("AUTH_REQUEST");
         axios.post("http://localhost:3000/api/comment", comment)
         .then((response) => {
+          commit("SUCCESS");
           resolve(response);
         })
         .catch((error) => {
+          commit("ERROR", error.response.data.error);
           reject(error);
         })
       })
+    },
+    newError({ commit }, error) {
+      commit("ERROR", error);
     }
   },
   modules: {

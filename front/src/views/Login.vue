@@ -68,6 +68,15 @@ export default {
         email: this.email,
         password: this.password
       };
+      if (!this.email) {
+        const error = "Veuillez renseigner une adresse email.";
+        this.$store.dispatch("newError", error);
+        throw error;
+      } else if (!this.password) {
+        const error = "Veuillez renseigner un mot de passe.";
+        this.$store.dispatch("newError", error);
+        throw error;
+      }
       this.$store
         .dispatch("login", user)
         .then(() => this.$router.push("/"))

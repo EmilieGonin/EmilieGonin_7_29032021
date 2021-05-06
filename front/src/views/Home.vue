@@ -96,11 +96,13 @@ export default {
         text: this.text,
         userId: this.$store.getters.user.id
       };
-      if (post.text == "") {
-        throw "Le post ne peut être vide.";
+      if (!post.text) {
+        const error = "Le post ne peut être vide.";
+        this.$store.dispatch("newError", error);
+        throw error;
       }
       const formData = new FormData();
-      if (this.file != "") {
+      if (this.file) {
         formData.append("file", this.file);
       }
       formData.append("post", JSON.stringify(post));

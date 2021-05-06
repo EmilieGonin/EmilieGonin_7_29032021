@@ -23,13 +23,18 @@
       </a>
     </div>
   </div>
+  <ErrorMessage></ErrorMessage>
   <router-view class="view" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import ErrorMessage from "@/components/ErrorMessage.vue";
 
 export default {
+  components: {
+    ErrorMessage
+  },
   computed: mapGetters(["user", "isLoggedIn"]),
   methods: {
     logout() {
