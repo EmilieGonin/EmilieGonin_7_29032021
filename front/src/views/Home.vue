@@ -84,6 +84,7 @@ export default {
     handleFile() {
       this.file = this.$refs.file.files[0];
       this.preview = URL.createObjectURL(this.file);
+      event.target.value = "";
     },
     removeFile() {
       this.file = "";
