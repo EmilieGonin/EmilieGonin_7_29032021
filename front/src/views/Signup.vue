@@ -75,19 +75,33 @@ export default {
   },
   methods: {
     signupForm(e) {
-      e.preventDefault();
-      const user = {
-        email: this.email,
-        password: this.password,
-        firstName: this.firstName,
-        lastName: this.lastName
-      };
-      this.$store
-        .dispatch("signup", user)
-        .then(() => this.$router.push("/"))
-        .catch(() =>
-          console.error("Une erreur s'est produite pendant l'inscription.")
-        );
+      try {
+        e.preventDefault();
+        const user = {
+          email: this.email,
+          password: this.password,
+          firstName: this.firstName,
+          lastName: this.lastName
+        };
+        if (
+          !this.email ||
+          !this.password ||
+          !this.firstName ||
+          !this.lastName
+        ) {
+          const error = "Veuillez renseigner tous les champs du formulaire.";
+          this.$store.dispatch("newError", error);
+          throw error;
+        }
+        this.$store
+          .dispatch("signup", user)
+          .then(() => this.$router.push("/"))
+          .catch(() =>
+            console.error("Une erreur s'est produite pendant l'inscription.")
+          );
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
 };
