@@ -3,13 +3,7 @@
     <!--Header-->
     <div class="post-item__header">
       <!--Avatar-->
-      <img
-        v-if="User.avatar != null"
-        class="post-item__avatar"
-        v-bind:src="User.avatar"
-        alt=""
-      />
-      <img class="post-item__avatar" src="@/assets/default.jpg" alt="" v-else />
+      <UserAvatar :user="User"></UserAvatar>
       <!--Name-->
       <router-link class="post-item__name" :to="'/user/' + User.id">
         {{ User.firstName }} {{ User.lastName }}
@@ -66,9 +60,13 @@
 
 <script>
 import { mapGetters } from "vuex";
+import UserAvatar from "@/components/UserAvatar.vue";
 
 export default {
   name: "PostItem",
+  components: {
+    UserAvatar
+  },
   data() {
     return {
       toggle: true
@@ -138,12 +136,6 @@ export default {
   &__name {
     color: $primary-color;
     font-weight: bold;
-  }
-  &__avatar {
-    width: $post-avatar;
-    height: $post-avatar;
-    border-radius: $post-avatar;
-    object-fit: cover;
   }
   &__menu {
     position: relative;

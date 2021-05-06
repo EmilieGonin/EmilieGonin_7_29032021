@@ -10,13 +10,7 @@
     >
       <div class="newpost__post">
         <!--Avatar-->
-        <img
-          class="newpost__avatar"
-          :src="user.avatar"
-          alt=""
-          v-if="isLoggedIn && user.avatar != null"
-        />
-        <img class="newpost__avatar" src="@/assets/default.jpg" alt="" v-else />
+        <UserAvatar :user="user"></UserAvatar>
         <!--ResizeAuto Message Input-->
         <ResizeAuto>
           <template v-slot:default="{ resize }">
@@ -61,12 +55,14 @@
 <script>
 import { mapGetters } from "vuex";
 import PostItem from "@/components/PostItem.vue";
+import UserAvatar from "@/components/UserAvatar.vue";
 import ResizeAuto from "@/components/ResizeAuto.vue";
 
 export default {
   name: "Home",
   components: {
     PostItem,
+    UserAvatar,
     ResizeAuto
   },
   data() {
@@ -135,12 +131,6 @@ export default {
   &__post {
     display: flex;
     padding: 10px;
-  }
-  &__avatar {
-    width: $post-avatar;
-    height: $post-avatar;
-    border-radius: $post-avatar;
-    object-fit: cover;
   }
   &__text {
     color: $font-color;

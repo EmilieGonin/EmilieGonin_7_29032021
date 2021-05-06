@@ -12,18 +12,7 @@
     >
       <div class="newcomment__post">
         <!--Avatar-->
-        <img
-          class="newcomment__avatar"
-          :src="user.avatar"
-          alt=""
-          v-if="isLoggedIn && user.avatar != null"
-        />
-        <img
-          class="newcomment__avatar"
-          src="@/assets/default.jpg"
-          alt=""
-          v-else
-        />
+        <UserAvatar :user="user"></UserAvatar>
         <!--ResizeAuto Message Input-->
         <ResizeAuto>
           <template v-slot:default="{ resize }">
@@ -52,6 +41,7 @@
 import { mapGetters } from "vuex";
 import PostItem from "@/components/PostItem.vue";
 import CommentItem from "@/components/CommentItem.vue";
+import UserAvatar from "@/components/UserAvatar.vue";
 import ResizeAuto from "@/components/ResizeAuto.vue";
 
 export default {
@@ -59,6 +49,7 @@ export default {
   components: {
     PostItem,
     CommentItem,
+    UserAvatar,
     ResizeAuto
   },
   data() {
@@ -110,12 +101,6 @@ export default {
   &__post {
     display: flex;
     padding: 10px;
-  }
-  &__avatar {
-    width: $post-avatar;
-    height: $post-avatar;
-    border-radius: $post-avatar;
-    object-fit: cover;
   }
   &__text {
     color: $font-color;
