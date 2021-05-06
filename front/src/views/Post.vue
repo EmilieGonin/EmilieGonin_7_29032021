@@ -12,7 +12,7 @@
     >
       <div class="newcomment__post">
         <!--Avatar-->
-        <UserAvatar :user="user"></UserAvatar>
+        <UserAvatar v-if="isLoggedIn" :user="user"></UserAvatar>
         <!--ResizeAuto Message Input-->
         <ResizeAuto>
           <template v-slot:default="{ resize }">
