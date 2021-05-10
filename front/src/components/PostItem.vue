@@ -32,17 +32,33 @@
         </ul>
       </div>
     </div>
-    <!--Message-->
-    <router-link
-      :to="'/post/' + id"
-      class="post-item__message"
-      v-if="!isPostPage()"
-    >
-      {{ text }}
-    </router-link>
-    <div class="post-item__message" v-else>
-      {{ text }}
-    </div>
+    <!--Message on Home Page-->
+    <ResizeAuto v-if="!isPostPage()">
+      <template v-slot:default="{ resize }">
+        <textarea
+          class="post-item__pointer resize-text"
+          @input="resize"
+          @click="redirect(id)"
+          v-model="postText"
+          rows="1"
+          readonly
+        >
+        </textarea>
+      </template>
+    </ResizeAuto>
+    <!--Message on Post Page-->
+    <ResizeAuto v-else>
+      <template v-slot:default="{ resize }">
+        <textarea
+          class="resize-text"
+          @input="resize"
+          v-model="postText"
+          rows="1"
+          readonly
+        >
+        </textarea>
+      </template>
+    </ResizeAuto>
     <!--File-->
     <img class="post-item__file" :src="file" v-if="file != null" />
     <!--Comments-->
@@ -61,15 +77,18 @@
 <script>
 import { mapGetters } from "vuex";
 import UserAvatar from "@/components/UserAvatar.vue";
+import ResizeAuto from "@/components/ResizeAuto.vue";
 
 export default {
   name: "PostItem",
   components: {
-    UserAvatar
+    UserAvatar,
+    ResizeAuto
   },
   data() {
     return {
-      toggle: true
+      toggle: true,
+      postText: this.text
     };
   },
   props: {
@@ -81,6 +100,9 @@ export default {
   },
   computed: mapGetters(["user", "isLoggedIn"]),
   methods: {
+    redirect(id) {
+      this.$router.push("/post/" + id);
+    },
     isPostPage() {
       if (this.$route.params.id) {
         return true;
@@ -143,6 +165,9 @@ export default {
     color: $primary-color;
     font-weight: bold;
   }
+  &__pointer {
+    cursor: pointer !important;
+  }
   &__menu {
     position: relative;
     margin-left: auto;
@@ -200,15 +225,11 @@ export default {
       color: mix($primary-color, red, 50%);
     }
   }
-  &__message {
-    display: block;
-    padding: 5px 15px 15px 15px;
-    font-size: $font-default;
-  }
   &__file {
     width: 100%;
     max-height: 350px;
     object-fit: cover;
+    padding-top: 10px;
   }
   &__comments {
     display: flex;
