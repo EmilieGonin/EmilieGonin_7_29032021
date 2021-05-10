@@ -93,7 +93,13 @@ export default {
       };
       this.$store
         .dispatch("deletePost", post)
-        .then(() => this.$store.dispatch("getPosts"))
+        .then(() => {
+          if (this.isPostPage()) {
+            this.$router.push("/");
+          } else {
+            this.$store.dispatch("getPosts");
+          }
+        })
         .catch(() =>
           console.error(
             "Une erreur s'est produite pendant la suppression du post."
