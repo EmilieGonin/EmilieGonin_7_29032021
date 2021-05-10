@@ -3,12 +3,14 @@
     class="avatar"
     :src="user.avatar"
     :alt="user.firstName + ' ' + user.lastName"
+    :style="setSize"
     v-if="user.avatar"
   />
   <img
     class="avatar"
     src="@/assets/default.png"
     :alt="user.firstName + ' ' + user.lastName"
+    :style="setSize"
     v-else
   />
 </template>
@@ -17,7 +19,17 @@
 export default {
   name: "UserAvatar",
   props: {
-    user: Object
+    user: Object,
+    size: String
+  },
+  computed: {
+    setSize() {
+      return {
+        width: this.size,
+        height: this.size,
+        borderRadius: this.size
+      };
+    }
   }
 };
 </script>
