@@ -32,26 +32,14 @@
         </ul>
       </div>
     </div>
-    <!--Message on Home Page-->
-    <ResizeAuto v-if="!isPostPage()">
-      <template v-slot:default="{ resize }">
-        <textarea
-          class="post-item__pointer resize-text"
-          @input="resize"
-          @click="redirect(id)"
-          v-model="postText"
-          rows="1"
-          readonly
-        >
-        </textarea>
-      </template>
-    </ResizeAuto>
-    <!--Message on Post Page-->
-    <ResizeAuto v-else>
+    <!--Message-->
+    <ResizeAuto>
       <template v-slot:default="{ resize }">
         <textarea
           class="resize-text"
           @input="resize"
+          @click="redirect(id)"
+          :style="!isPostPage() ? 'cursor: pointer' : ''"
           v-model="postText"
           rows="1"
           readonly
@@ -101,7 +89,9 @@ export default {
   computed: mapGetters(["user", "isLoggedIn"]),
   methods: {
     redirect(id) {
-      this.$router.push("/post/" + id);
+      if (!this.isPostPage()) {
+        this.$router.push("/post/" + id);
+      }
     },
     isPostPage() {
       if (this.$route.params.id) {
@@ -164,9 +154,6 @@ export default {
   &__name {
     color: $primary-color;
     font-weight: bold;
-  }
-  &__pointer {
-    cursor: pointer !important;
   }
   &__menu {
     position: relative;
