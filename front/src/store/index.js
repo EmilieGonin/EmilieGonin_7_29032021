@@ -66,6 +66,10 @@ export default createStore({
     ERROR(state, error) {
       state.status = "error";
       state.error = "Erreur : " + error;
+    },
+    RESET_ERROR(state) {
+      state.status = "";
+      state.error = "";
     }
   },
   actions: {
@@ -179,6 +183,9 @@ export default createStore({
     },
     newError({ commit }, error) {
       commit("ERROR", error);
+    },
+    resetError({ commit }) {
+      commit("RESET_ERROR");
     }
   },
   modules: {

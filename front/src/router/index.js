@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import store from '../store'
 
 const routes = [
   {
@@ -39,6 +40,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  //reset state error if necessary
+  if (store.state.error) {
+    store.dispatch("resetError");
+  }
+
   //redirect if not logged in
   const publicPages = ['/login', '/signup'];
   const authRequired = !publicPages.includes(to.path);
