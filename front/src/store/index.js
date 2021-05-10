@@ -181,6 +181,24 @@ export default createStore({
         })
       })
     },
+    deleteComment({ commit }, comment) {
+      return new Promise((resolve, reject) => {
+        commit("AUTH_REQUEST");
+        axios.delete("http://localhost:3000/api/comment/" + comment.id, {
+          data: {
+            userId: comment.userId
+          }
+        })
+        .then((response) => {
+          commit("SUCCESS");
+          resolve(response);
+        })
+        .catch((error) => {
+          commit("ERROR", error.response.data.error);
+          reject(error);
+        })
+      })
+    },
     newError({ commit }, error) {
       commit("ERROR", error);
     },
