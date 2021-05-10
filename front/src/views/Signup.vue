@@ -1,7 +1,12 @@
 <template>
   <div class="signup">
     <!--Signup Form-->
-    <form class="form" @submit="signupForm" action="index.html" method="post">
+    <form
+      class="form"
+      @submit.prevent="signupForm"
+      action="index.html"
+      method="post"
+    >
       <FormItem>
         <!--Title-->
         <template #title>Inscription</template>
@@ -84,9 +89,8 @@ export default {
     };
   },
   methods: {
-    signupForm(e) {
+    signupForm() {
       try {
-        e.preventDefault();
         const user = {
           email: this.email,
           password: this.password,

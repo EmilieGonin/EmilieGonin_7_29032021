@@ -6,7 +6,7 @@
     <!--New Comment Form-->
     <form
       class="newcomment"
-      @submit="newcomment"
+      @submit.prevent="newcomment"
       action="index.html"
       method="post"
     >
@@ -62,27 +62,30 @@ export default {
     this.$store.dispatch("getPost", { postId: this.$route.params.id });
   },
   methods: {
-    newcomment(e) {
-      e.preventDefault();
-      const comment = {
-        text: this.text,
-        postId: this.$store.getters.post.id,
-        userId: this.$store.getters.user.id
-      };
-      if (comment.text == "") {
-        throw "Le commentaire ne peut être vide.";
+    newcomment() {
+      try {
+        const comment = {
+          text: this.text,
+          postId: this.$store.getters.post.id,
+          userId: this.$store.getters.user.id
+        };
+        if (comment.text == "") {
+          throw "Le commentaire ne peut être vide.";
+        }
+        this.$store
+          .dispatch("newcomment", comment)
+          .then(() => {
+            this.$store.dispatch("getPost", { postId: this.$route.params.id });
+            this.text = "";
+          })
+          .catch(() =>
+            console.error(
+              "Une erreur s'est produite pendant l'envoi du commentaire."
+            )
+          );
+      } catch (e) {
+        console.error(e);
       }
-      this.$store
-        .dispatch("newcomment", comment)
-        .then(() => {
-          this.$store.dispatch("getPost", { postId: this.$route.params.id });
-          this.text = "";
-        })
-        .catch(() =>
-          console.error(
-            "Une erreur s'est produite pendant l'envoi du commentaire."
-          )
-        );
     }
   }
 };

@@ -1,7 +1,12 @@
 <template>
   <div class="login">
     <!--Login Form-->
-    <form class="form" @submit="loginForm" action="index.html" method="post">
+    <form
+      class="form"
+      @submit.prevent="loginForm"
+      action="index.html"
+      method="post"
+    >
       <FormItem>
         <!--Title-->
         <template #title>Connexion</template>
@@ -66,9 +71,8 @@ export default {
     };
   },
   methods: {
-    loginForm(e) {
+    loginForm() {
       try {
-        e.preventDefault();
         const user = {
           email: this.email,
           password: this.password

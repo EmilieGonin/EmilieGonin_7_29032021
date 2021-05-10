@@ -3,7 +3,7 @@
     <!--New Post Form-->
     <form
       class="newpost"
-      @submit="newpost"
+      @submit.prevent="newpost"
       enctype="multipart/form-data"
       action="index.html"
       method="post"
@@ -86,33 +86,36 @@ export default {
       this.file = "";
       this.preview = "";
     },
-    newpost(e) {
-      e.preventDefault();
-      const post = {
-        text: this.text,
-        userId: this.$store.getters.user.id
-      };
-      if (!post.text) {
-        const error = "Le post ne peut être vide.";
-        this.$store.dispatch("newError", error);
-        throw error;
+    newpost() {
+      try {
+        const post = {
+          text: this.text,
+          userId: this.$store.getters.user.id
+        };
+        if (!post.text) {
+          const error = "Le post ne peut être vide.";
+          this.$store.dispatch("newError", error);
+          throw error;
+        }
+        const formData = new FormData();
+        if (this.file) {
+          formData.append("file", this.file);
+        }
+        formData.append("post", JSON.stringify(post));
+        this.$store
+          .dispatch("newpost", formData)
+          .then(() => {
+            this.$store.dispatch("getPosts");
+            this.text = "";
+            this.file = "";
+            this.preview = "";
+          })
+          .catch(() =>
+            console.error("Une erreur s'est produite pendant l'envoi du post.")
+          );
+      } catch (e) {
+        console.error(e);
       }
-      const formData = new FormData();
-      if (this.file) {
-        formData.append("file", this.file);
-      }
-      formData.append("post", JSON.stringify(post));
-      this.$store
-        .dispatch("newpost", formData)
-        .then(() => {
-          this.$store.dispatch("getPosts");
-          this.text = "";
-          this.file = "";
-          this.preview = "";
-        })
-        .catch(() =>
-          console.error("Une erreur s'est produite pendant l'envoi du post.")
-        );
     }
   }
 };
