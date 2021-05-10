@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <!--Loading Needed-->
+  <div v-if="!loading">
     <!--New Post Form-->
     <form
       class="newpost"
@@ -73,8 +74,8 @@ export default {
       preview: ""
     };
   },
-  computed: mapGetters(["user", "posts", "isLoggedIn"]),
-  mounted() {
+  computed: mapGetters(["user", "posts", "isLoggedIn", "loading"]),
+  created() {
     this.$store.dispatch("getPosts");
   },
   methods: {

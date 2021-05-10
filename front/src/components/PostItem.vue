@@ -1,5 +1,5 @@
 <template>
-  <div class="post-item" v-if="isLoggedIn">
+  <div class="post-item" v-if="isLoggedIn && !loading">
     <!--Header-->
     <div class="post-item__header">
       <!--Avatar-->

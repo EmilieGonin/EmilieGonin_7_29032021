@@ -58,7 +58,7 @@ export default {
     };
   },
   computed: mapGetters(["user", "post", "loading", "isLoggedIn"]),
-  mounted() {
+  created() {
     this.$store.dispatch("getPost", { postId: this.$route.params.id });
   },
   methods: {
