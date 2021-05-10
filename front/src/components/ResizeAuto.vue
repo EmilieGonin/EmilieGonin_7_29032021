@@ -25,6 +25,7 @@ export default {
   background: $block-color;
   border: none;
   padding: 5px 15px;
+  margin-bottom: 10px;
   resize: none;
   overflow: hidden;
 }

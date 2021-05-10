@@ -45,7 +45,16 @@ exports.newPost = (req, res, next) => {
   .catch(() => res.status(401).json({ error: "Utilisateur introuvable." }));
 };
 exports.editPost = (req, res, next) => {
-  Post.update({ text: req.body.text }, { where: { id: req.params.id } })
+  const data = req.file ?
+  {
+    ...JSON.parse(req.body.post),
+    file: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
+  } : { ...JSON.parse(req.body.post) };
+
+  Post.update({
+    text: data.text,
+    file: data.file
+   }, { where: { id: req.params.id } })
   .then((found) => {
     if (found[0]) {
       res.status(200).json({ message: "Post mis à jour !" });

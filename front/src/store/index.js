@@ -150,6 +150,24 @@ export default createStore({
         })
       })
     },
+    editPost({ commit }, [ post, id ]) {
+      return new Promise((resolve, reject) => {
+        commit("REQUEST");
+        axios.put("http://localhost:3000/api/posts/" + id, post, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((response) => {
+          commit("SUCCESS");
+          resolve(response);
+        })
+        .catch((error) => {
+          commit("ERROR", error.response.data.error);
+          reject(error);
+        })
+      })
+    },
     deletePost({ commit }, post) {
       return new Promise((resolve, reject) => {
         commit("REQUEST");

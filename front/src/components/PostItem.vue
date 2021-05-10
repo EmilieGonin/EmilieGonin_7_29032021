@@ -13,7 +13,7 @@
         <div class="post-item__menu-button" @click="toggle = !toggle">
           <i class="fal fa-ellipsis-h fa-fw"></i>
         </div>
-        <ul v-show="!toggle" class="post-item__menu-links">
+        <ul v-show="toggle" class="post-item__menu-links">
           <!--Delete button-->
           <li
             class="post-item__menu-link post-item__menu-link--delete"
@@ -24,7 +24,7 @@
           <!--Edit button-->
           <li
             class="post-item__menu-link"
-            @click="editPost(id, User.id)"
+            @click="edit()"
             v-if="User.id == user.id"
           >
             <i class="far fa-pen fa-fw"></i> Modifier
@@ -33,22 +33,102 @@
       </div>
     </div>
     <!--Message-->
-    <ResizeAuto>
-      <template v-slot:default="{ resize }">
-        <textarea
-          class="resize-text"
-          @input="resize"
-          @click="redirect(id)"
-          :style="!isPostPage() ? 'cursor: pointer' : ''"
-          v-model="postText"
-          rows="1"
-          readonly
+    <form
+      class="post-item__edit-form"
+      @submit.prevent="editPost()"
+      enctype="multipart/form-data"
+      action="index.html"
+      method="post"
+    >
+      <ResizeAuto>
+        <template v-slot:default="{ resize }">
+          <textarea
+            class="resize-text"
+            :class="{ 'post-item__editable': editable }"
+            @input="resize"
+            @click="redirect()"
+            :style="!isPostPage() && !editable ? 'cursor: pointer' : ''"
+            v-model="postText"
+            :ref="'post-' + id"
+            rows="1"
+            readonly
+          >
+          </textarea>
+        </template>
+      </ResizeAuto>
+      <!--File-->
+      <div
+        class="post-item__file-container"
+        v-if="(file || postFile) && !deleteFile"
+      >
+        <div class="post-item__file-buttons" v-if="editable">
+          <!--Upload File Hidden Input-->
+          <input
+            type="file"
+            id="postFile"
+            ref="postFile"
+            @change="handlePostFile()"
+            class="hidden"
+          />
+          <!--Upload File Button-->
+          <label for="postFile" class="post-item__button">
+            <i class="fas fa-sync fa-fw"></i>
+          </label>
+          <!--Undo Upload File Button-->
+          <div
+            class="post-item__button"
+            @click="removePostPreview()"
+            v-if="postPreview"
+          >
+            <i class="fas fa-undo-alt fa-fw"></i>
+          </div>
+          <!--Delete File Button-->
+          <div class="post-item__button" @click="removePostFile()">
+            <i class="fas fa-times fa-fw"></i>
+          </div>
+        </div>
+        <!--File Preview-->
+        <img class="post-item__file" :src="postPreview" v-if="postPreview" />
+        <!--Post File-->
+        <img
+          class="post-item__file"
+          :src="file"
+          v-else-if="file && !deleteFile"
+        />
+      </div>
+      <!--Empty File Block-->
+      <div class="post-item__empty-file" v-else-if="editable">
+        <input
+          type="file"
+          id="postFile"
+          ref="postFile"
+          @change="handlePostFile()"
+          class="hidden"
+        />
+        <label for="postFile" class="post-item__button post-item__button--add">
+          <i class="fas fa-plus fa-fw"></i>
+        </label>
+      </div>
+      <!--Edit Buttons-->
+      <div class="post-item__edit-buttons" v-if="editable">
+        <!--Confirm Edit Button-->
+        <button
+          class="post-item__button post-item__button--valid"
+          type="submit"
         >
-        </textarea>
-      </template>
-    </ResizeAuto>
-    <!--File-->
-    <img class="post-item__file" :src="file" v-if="file != null" />
+          <i class="fas fa-check fa-fw"></i> Valider les modifications
+        </button>
+        <!--Cancel Edit Button-->
+        <button
+          class="post-item__button post-item__button--cancel"
+          @click="cancelEdit()"
+          type="button"
+        >
+          <i class="fas fa-times fa-fw"></i> Annuler les modifications
+        </button>
+      </div>
+    </form>
+    <!-- <img class="post-item__file" :src="file" v-if="file != null" /> -->
     <!--Comments-->
     <div class="post-item__comments" v-if="!isPostPage()">
       <router-link :to="'/post/' + id" class="fas fa-comments"></router-link>
@@ -75,8 +155,12 @@ export default {
   },
   data() {
     return {
-      toggle: true,
-      postText: this.text
+      toggle: false,
+      editable: false,
+      postText: this.text,
+      deleteFile: false,
+      postFile: "",
+      postPreview: ""
     };
   },
   props: {
@@ -86,11 +170,11 @@ export default {
     User: Object,
     Comments: Array
   },
-  computed: mapGetters(["user", "isLoggedIn"]),
+  computed: mapGetters(["user", "isLoggedIn", "loading"]),
   methods: {
-    redirect(id) {
-      if (!this.isPostPage()) {
-        this.$router.push("/post/" + id);
+    redirect() {
+      if (!this.isPostPage() && !this.editable) {
+        this.$router.push("/post/" + this.id);
       }
     },
     isPostPage() {
@@ -118,14 +202,53 @@ export default {
           )
         );
     },
-    editPost(postId, userId) {
+    edit() {
+      this.$refs["post-" + this.id].removeAttribute("readonly");
+      this.$refs["post-" + this.id].focus();
+      this.toggle = false;
+      this.editable = true;
+    },
+    cancelEdit() {
+      this.$refs["post-" + this.id].setAttribute("readonly", true);
+      this.editable = false;
+      this.postText = this.text;
+      this.deleteFile = false;
+    },
+    handlePostFile() {
+      this.postFile = this.$refs.postFile.files[0];
+      this.postPreview = URL.createObjectURL(this.postFile);
+      event.target.value = "";
+      this.deleteFile = false;
+    },
+    removePostPreview() {
+      this.postFile = "";
+      this.postPreview = "";
+    },
+    removePostFile() {
+      this.postFile = "";
+      this.postPreview = "";
+      this.deleteFile = true;
+    },
+    editPost() {
       const post = {
-        id: postId,
-        UserId: userId
+        text: this.postText
       };
+      const formData = new FormData();
+      if (this.deleteFile) {
+        post.file = null;
+      } else if (this.postFile) {
+        formData.append("file", this.postFile);
+      }
+      formData.append("post", JSON.stringify(post));
       this.$store
-        .dispatch("editPost", post)
-        .then(() => this.$store.dispatch("getPosts"))
+        .dispatch("editPost", [formData, this.id])
+        .then(() => {
+          if (this.isPostPage()) {
+            this.$store.dispatch("getPost", { postId: this.$route.params.id });
+          } else {
+            this.$store.dispatch("getPosts");
+          }
+        })
         .catch(() =>
           console.error(
             "Une erreur s'est produite pendant la modification du post."
@@ -155,7 +278,21 @@ export default {
     color: $primary-color;
     font-weight: bold;
   }
+  &__edit-form {
+    position: relative;
+  }
+  &__editable {
+    background: $tertiary-color;
+    color: black;
+  }
+  &__edit-buttons {
+    display: flex;
+    padding: 5px;
+    justify-content: center;
+    gap: 5px;
+  }
   &__menu {
+    z-index: 2;
     position: relative;
     margin-left: auto;
   }
@@ -212,11 +349,59 @@ export default {
       color: mix($primary-color, red, 50%);
     }
   }
+  &__file-container {
+    position: relative;
+  }
+  &__file-buttons {
+    display: flex;
+    gap: 5px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+  &__button {
+    display: inline-block;
+    padding: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    background: $primary-color;
+    color: white;
+    font-size: $font-large;
+    border: none;
+    &--valid {
+      padding: 5px 10px;
+      background: $valid-color;
+      &:hover {
+        background: darken($valid-color, 5%);
+      }
+    }
+    &--cancel {
+      padding: 5px 10px;
+      background: $error-color;
+      &:hover {
+        background: darken($error-color, 5%);
+      }
+    }
+    &--add {
+      // padding: 5px 10px;
+      background: $tertiary-color;
+      &:hover {
+        background: darken($tertiary-color, 5%);
+      }
+    }
+  }
+  &__empty-file {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: fade-out(white, 0.5);
+    height: 80px;
+    margin-bottom: 10px;
+  }
   &__file {
     width: 100%;
     max-height: 350px;
     object-fit: cover;
-    padding-top: 10px;
   }
   &__comments {
     display: flex;
