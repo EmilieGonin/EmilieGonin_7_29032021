@@ -15,6 +15,7 @@
               type="text"
               name="firstName"
               v-model="firstName"
+              required
             />
           </div>
           <!--Last Name-->
@@ -25,6 +26,7 @@
               type="text"
               name="lastName"
               v-model="lastName"
+              required
             />
           </div>
           <!--Email-->
@@ -35,6 +37,8 @@
               type="email"
               name="email"
               v-model="email"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              required
             />
           </div>
           <!--Password-->
@@ -45,7 +49,13 @@
               type="password"
               name="password"
               v-model="password"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+              required
             />
+            <span class="form__field-text">
+              Le mot de passe doit contenir un minimum de 8 caractères dont au
+              moins une minuscule, une majuscule et un chiffre.
+            </span>
           </div>
         </template>
         <!--Submit Button-->

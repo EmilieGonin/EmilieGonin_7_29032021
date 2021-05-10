@@ -15,6 +15,8 @@
               type="email"
               name="email"
               v-model="email"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              required
             />
           </div>
           <!--Password-->
@@ -25,6 +27,8 @@
               type="password"
               name="password"
               v-model="password"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+              required
             />
           </div>
         </template>
