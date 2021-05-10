@@ -1,5 +1,6 @@
 <template>
   <div class="account">
+    <!--Account Form-->
     <form
       class="form"
       @submit.prevent="updateUser"
@@ -10,6 +11,7 @@
       <FormItem>
         <template #title>Paramètres du compte</template>
         <template #fields>
+          <!--Avatar-->
           <div class="form__field">
             <UserAvatar
               v-if="isLoggedIn"
@@ -31,6 +33,7 @@
               readonly
               required
             />
+            <!--Edit Button-->
             <button
               @click="edit"
               id="edit-firstName"
@@ -51,6 +54,7 @@
               readonly
               required
             />
+            <!--Edit Button-->
             <button
               @click="edit"
               id="edit-lastName"
@@ -60,8 +64,10 @@
             </button>
           </div>
         </template>
+        <!--Submit Button-->
         <template #button>Mettre à jour les données du compte</template>
       </FormItem>
+      <!--Remove Account Button-->
       <button class="form__button form__button--delete">
         Supprimer le compte
       </button>
