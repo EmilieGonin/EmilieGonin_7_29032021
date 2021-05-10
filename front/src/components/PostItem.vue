@@ -78,7 +78,7 @@
           <div
             class="post-item__button"
             @click="removePostPreview()"
-            v-if="postPreview"
+            v-if="postPreview && file"
           >
             <i class="fas fa-undo-alt fa-fw"></i>
           </div>
