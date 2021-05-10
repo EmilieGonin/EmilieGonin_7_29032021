@@ -15,9 +15,10 @@
         <ResizeAuto>
           <template v-slot:default="{ resize }">
             <textarea
-              class="newpost__text"
+              class="resize-text"
               @input="resize"
               v-model="text"
+              rows="1"
               placeholder="Postez un nouveau message !"
             ></textarea>
           </template>
@@ -158,10 +159,11 @@ export default {
     width: 100%;
     max-height: 350px;
     object-fit: cover;
+    padding-top: 10px;
   }
   &__delete-preview {
     position: absolute;
-    top: 5px;
+    top: 15px;
     right: 5px;
     padding: 5px;
     border-radius: 20px;
