@@ -40,6 +40,10 @@ input,
 textarea {
   outline: none;
 }
+input:read-only,
+textarea:read-only {
+  cursor: default;
+}
 textarea {
   font-family: "Roboto", sans-serif;
   font-size: $font-default;

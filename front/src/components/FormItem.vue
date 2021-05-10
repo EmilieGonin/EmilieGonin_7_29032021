@@ -88,7 +88,6 @@ export default {
       background: darken(white, 10%);
       border-bottom: 2px solid darken(white, 13%);
       border-top: 2px solid darken(white, 13%);
-      cursor: default;
     }
     &:focus:valid {
       border-top: 2px solid $valid-color;
