@@ -26,7 +26,7 @@
               <div
                 class="account__button"
                 @click="removeFile()"
-                v-if="file || user.avatar"
+                v-if="(file || user.avatar) && !deleteFile"
               >
                 <i class="fas fa-times fa-fw"></i>
               </div>
