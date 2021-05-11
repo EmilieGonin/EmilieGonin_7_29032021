@@ -60,27 +60,28 @@ exports.userUpdate = (req, res, next) => {
 
   User.findByPk(req.params.id)
   .then((user) => {
-    if (req.file) {
-      if (user.avatar) {
-        const filename = user.avatar.split("/uploads")[1];
-        fs.unlink(`uploads/${filename}`, (error) => {
-          if (error) {
-            throw error;
-          }
-        })
+    if ((req.file || data.deletefile) && user.avatar) {
+      const filename = user.avatar.split("/uploads")[1];
+
+      try {
+        fs.unlinkSync(`uploads/${filename}`);
+      } catch (e) {
+        res.status(500).json({ error: "Impossible de supprimer l'ancien avatar." })
       }
     }
-
-    user.update(data, { where: { id: req.params.id } })
-    .then(() => res.status(200).json({ message: "Utilisateur mis à jour !" }))
-    .catch((error) => res.status(500).json({ error: "Impossible de mettre à jour l'utilisateur." }));
   })
-  .catch((error) => {
-    if (req.file) {
-      fs.unlinkSync(`uploads/${req.file.filename}`);
-    }
-    res.status(500).json({ error: "Utilisateur non trouvé." });
-  });
+  .then(() => {
+    User.update(data, { where: { id: req.params.id } })
+    .then((found) => {
+      if (found[0]) {
+        res.status(200).json({ message: "Utilisateur mis à jour !" });
+      }
+      else {
+        res.status(500).json({ error: "Impossible de mettre à jour l'utilisateur'." });
+      }
+    })
+  })
+  .catch((error) => res.status(500).json({ error: "Une erreur s'est produite pendant la mise à jour." }));
 }
 exports.userDelete = (req, res, next) => {
   User.findByPk(req.params.id)

@@ -4,7 +4,7 @@
     :src="user.avatar"
     :alt="user.firstName + ' ' + user.lastName"
     :style="setSize"
-    v-if="user.avatar"
+    v-if="user.avatar && !defaultAvatar"
   />
   <img
     class="avatar"
@@ -20,7 +20,11 @@ export default {
   name: "UserAvatar",
   props: {
     user: Object,
-    size: String
+    size: String,
+    defaultAvatar: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     setSize() {

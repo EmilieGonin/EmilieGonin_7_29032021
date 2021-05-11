@@ -3,10 +3,9 @@ import axios from 'axios'
 
 //localStorage.clear();
 const user = JSON.parse(localStorage.getItem("user"));
-if (user) { authHeader() }
+if (user) { authHeader(user) }
 
-export function authHeader() {
-  const user = JSON.parse(localStorage.getItem("user"));
+export function authHeader(user) {
   axios.defaults.headers.common['Authorization'] = "Bearer " + user.token;
 }
 
@@ -50,6 +49,8 @@ export default createStore({
       state.loading = false;
     },
     AUTH_SUCCESS(state, user) {
+      localStorage.setItem("user", JSON.stringify(user));
+      authHeader(user);
       state.user = user;
       state.loading = false;
       state.error = "";
@@ -83,10 +84,7 @@ export default createStore({
           lastName: user.lastName
         })
         .then((response) => {
-          const user = response.data;
-          localStorage.setItem("user", JSON.stringify(user));
-          authHeader();
-          commit("AUTH_SUCCESS", user);
+          commit("AUTH_SUCCESS", response.data);
           resolve(response);
         })
         .catch((error) => {
@@ -103,10 +101,7 @@ export default createStore({
           password: user.password
         })
         .then((response) => {
-          const user = response.data;
-          localStorage.setItem("user", JSON.stringify(user));
-          authHeader();
-          commit("AUTH_SUCCESS", user);
+          commit("AUTH_SUCCESS", response.data);
           resolve(response);
         })
         .catch((error) => {
@@ -118,6 +113,33 @@ export default createStore({
     logout({ commit }) {
       commit("LOGOUT");
       localStorage.removeItem("user");
+    },
+    editUser({ commit }, [ user, id ]) {
+      return new Promise((resolve, reject) => {
+        commit("REQUEST");
+        axios.put("http://localhost:3000/api/user/" + id, user, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(() => {
+          commit("REQUEST");
+          axios.get("http://localhost:3000/api/user/" + id)
+          .then(response => {
+            const token = JSON.parse(localStorage.getItem("user")).token;
+            const user = {
+              ...response.data,
+              token: token
+            }
+            commit("AUTH_SUCCESS", user);
+            resolve(response);
+          })
+        })
+        .catch((error) => {
+          commit("ERROR", error.response.data.error);
+          reject(error);
+        })
+      })
     },
     deleteUser({ commit }, userId) {
       return new Promise((resolve, reject) => {

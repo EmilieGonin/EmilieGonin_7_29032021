@@ -62,6 +62,7 @@ export default {
     font-size: $font-medium;
     text-align: center;
     padding: 10px;
+    margin-top: 5px;
     cursor: pointer;
     &:hover {
       background: darken(white, 10%);
