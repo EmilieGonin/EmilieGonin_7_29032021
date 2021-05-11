@@ -68,7 +68,7 @@
         <template #button>Mettre à jour les données du compte</template>
       </FormItem>
       <!--Remove Account Button-->
-      <button class="form__button form__button--delete">
+      <button class="form__button form__button--delete" @click="deleteUser()">
         Supprimer le compte
       </button>
     </form>
@@ -101,6 +101,37 @@ export default {
       this.$refs[input].removeAttribute("readonly");
       this.$refs[input].select();
       button.classList.add("hidden");
+    },
+    deleteUser() {
+      this.$store
+        .dispatch("deleteUser", this.user.id)
+        .then(() => this.$router.push("/login"))
+        .catch(() =>
+          console.error(
+            "Une erreur s'est produite pendant la suppression de l'utilisateur."
+          )
+        );
+    },
+    editUser() {
+      const user = {
+        firstName: this.firstName,
+        lastName: this.lastName
+      };
+      const formData = new FormData();
+      if (this.deleteFile) {
+        user.deletefile = true;
+        user.file = "";
+      } else if (this.file) {
+        formData.append("file", this.file);
+      }
+      formData.append("user", JSON.stringify(user));
+      this.$store
+        .dispatch("editUser", [formData, this.id])
+        .catch(() =>
+          console.error(
+            "Une erreur s'est produite pendant la modification de l'utilisateur."
+          )
+        );
     }
   }
 };

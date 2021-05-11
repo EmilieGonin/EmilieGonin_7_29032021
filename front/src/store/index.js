@@ -132,6 +132,21 @@ export default createStore({
       commit("LOGOUT");
       localStorage.removeItem("user");
     },
+    deleteUser({ commit }, userId) {
+      return new Promise((resolve, reject) => {
+        commit("REQUEST");
+        axios.delete("http://localhost:3000/api/user/" + userId)
+        .then((response) => {
+          commit("SUCCESS");
+          this.dispatch("logout");
+          resolve(response);
+        })
+        .catch((error) => {
+          commit("ERROR", error.response.data.error);
+          reject(error);
+        })
+      })
+    },
     newpost({ commit }, post) {
       return new Promise((resolve, reject) => {
         commit("REQUEST");
