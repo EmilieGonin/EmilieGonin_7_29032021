@@ -21,6 +21,7 @@
               @input="resize"
               v-model="text"
               placeholder="Postez un nouveau commentaire !"
+              rows="1"
             ></textarea>
           </template>
         </ResizeAuto>
