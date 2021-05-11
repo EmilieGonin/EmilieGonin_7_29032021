@@ -48,13 +48,23 @@ router.beforeEach((to, from, next) => {
   //redirect if not logged in
   const publicPages = ['/login', '/signup'];
   const authRequired = !publicPages.includes(to.path);
-  const loggedIn = localStorage.getItem('user');
 
-  if (authRequired && !loggedIn) {
-    return next('/login');
+  if (authRequired) {
+    const loggedIn = localStorage.getItem('user');
+
+    if (!loggedIn) {
+      return next('/login');
+    }
+    else {
+      const user = JSON.parse(localStorage.getItem("user")).user;
+      store.dispatch("checkUser", user.id)
+      .then(() => next())
+      .catch(() => next('/login'))
+    }
   }
-
-  next();
+  else {
+    next()
+  }
 })
 
 export default router

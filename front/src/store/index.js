@@ -3,6 +3,7 @@ import axios from 'axios'
 
 //localStorage.clear();
 const user = JSON.parse(localStorage.getItem("user"));
+// console.log(user);
 if (user) { authHeader(user) }
 
 export function authHeader(user) {
@@ -74,6 +75,21 @@ export default createStore({
   },
   actions: {
     // User
+    checkUser({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        commit("REQUEST");
+        axios.get("http://localhost:3000/api/user/" + id)
+        .then(response => {
+          commit("SUCCESS", response.data.post);
+          resolve(response);
+        })
+        .catch(error => {
+          commit("LOGOUT");
+          localStorage.removeItem("user");
+          reject(error);
+        })
+      })
+    },
     signup({ commit }, user) {
       return new Promise((resolve, reject) => {
         commit("REQUEST");
