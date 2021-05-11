@@ -17,8 +17,11 @@ module.exports = (req, res, next) => {
         req.userId = userId;
         next();
       }
+      else {
+        throw "Utilisateur inexistant.";
+      }
     })
-    .catch((error) => res.status(404).json({ error: "Utilisateur inexistant." }));
+    .catch((error) => res.status(404).json({ error: error }));
   }
   catch(e) {
     res.status(401).json({ error: e });
