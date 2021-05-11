@@ -1,5 +1,11 @@
 <template>
   <div class="post-item" v-if="isLoggedIn && !loading">
+    <!--Fullscreen Image Viewer-->
+    <ImageViewer
+      :image="file"
+      v-if="file && viewer"
+      @close-viewer="viewer = false"
+    ></ImageViewer>
     <!--Header-->
     <div class="post-item__header">
       <!--Avatar-->
@@ -93,6 +99,7 @@
         <img
           class="post-item__file"
           :src="file"
+          @click="viewer = true"
           v-else-if="file && !deleteFile"
         />
       </div>
@@ -128,7 +135,6 @@
         </button>
       </div>
     </form>
-    <!-- <img class="post-item__file" :src="file" v-if="file != null" /> -->
     <!--Comments-->
     <div class="post-item__comments" v-if="!isPostPage()">
       <router-link :to="'/post/' + id" class="fas fa-comments"></router-link>
@@ -146,12 +152,14 @@
 import { mapGetters } from "vuex";
 import UserAvatar from "@/components/UserAvatar.vue";
 import ResizeAuto from "@/components/ResizeAuto.vue";
+import ImageViewer from "@/components/ImageViewer.vue";
 
 export default {
   name: "PostItem",
   components: {
     UserAvatar,
-    ResizeAuto
+    ResizeAuto,
+    ImageViewer
   },
   data() {
     return {
@@ -160,7 +168,8 @@ export default {
       postText: this.text,
       deleteFile: false,
       postFile: "",
-      postPreview: ""
+      postPreview: "",
+      viewer: false
     };
   },
   props: {
