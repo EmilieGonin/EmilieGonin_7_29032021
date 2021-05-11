@@ -75,7 +75,6 @@ exports.editPost = (req, res, next) => {
     })
   })
   .catch((error) => res.status(500).json({ error: "Une erreur s'est produite pendant la mise à jour." }));
-
 };
 exports.deletePost = (req, res, next) => {
   Post.findByPk(req.params.id)
