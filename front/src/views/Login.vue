@@ -90,7 +90,7 @@ export default {
           .dispatch("login", user)
           .then(() => this.$router.push("/"))
           .catch(() =>
-            console.error("Une erreur s'est produite dans la connexion.")
+            console.error("Une erreur s'est produite pendant la connexion.")
           );
       } catch (e) {
         console.error(e);
