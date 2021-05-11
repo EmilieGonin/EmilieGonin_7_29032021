@@ -14,20 +14,20 @@
       <router-link class="post-item__name" :to="'/user/' + User.id">
         {{ User.firstName }} {{ User.lastName }}
       </router-link>
-      <!--Menu-->
+      <!--Post Menu-->
       <div class="post-item__menu" v-if="User.id == user.id || user.isAdmin">
         <div class="post-item__menu-button" @click="toggle = !toggle">
           <i class="fal fa-ellipsis-h fa-fw"></i>
         </div>
         <ul v-show="toggle" class="post-item__menu-links">
-          <!--Delete button-->
+          <!--Post Delete button-->
           <li
             class="post-item__menu-link post-item__menu-link--delete"
             @click="deletePost(id, User.id)"
           >
             <i class="far fa-trash-alt fa-fw"></i> Supprimer
           </li>
-          <!--Edit button-->
+          <!--Post Edit button-->
           <li
             class="post-item__menu-link"
             @click="edit()"
@@ -38,7 +38,7 @@
         </ul>
       </div>
     </div>
-    <!--Message-->
+    <!--Post Form-->
     <form
       class="post-item__edit-form"
       @submit.prevent="editPost()"
@@ -46,6 +46,7 @@
       action="index.html"
       method="post"
     >
+      <!--Message-->
       <ResizeAuto>
         <template v-slot:default="{ resize }">
           <textarea
@@ -116,7 +117,7 @@
           <i class="fas fa-plus fa-fw"></i>
         </label>
       </div>
-      <!--Edit Buttons-->
+      <!--Edit Post Buttons-->
       <div class="post-item__edit-buttons" v-if="editable">
         <!--Confirm Edit Button-->
         <button
