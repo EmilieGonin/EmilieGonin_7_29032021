@@ -1,5 +1,5 @@
 <template>
-  <div class="account">
+  <div class="account" v-if="isLoggedIn">
     <!--Account Form-->
     <form
       class="form"
