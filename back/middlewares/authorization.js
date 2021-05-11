@@ -34,7 +34,7 @@ module.exports = (req, res, next) => {
       else if (req.baseUrl == "/api/user") {
         User.findByPk(req.params.id)
         .then((userToUpdate) => {
-          if (user == userToUpdate) {
+          if (user.id == userToUpdate.id) {
             next()
           }
           else {
