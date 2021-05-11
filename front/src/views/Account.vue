@@ -131,7 +131,6 @@ export default {
     return {
       firstName: this.$store.getters.user.firstName,
       lastName: this.$store.getters.user.lastName,
-      change: false,
       file: "",
       preview: "",
       deleteFile: false
