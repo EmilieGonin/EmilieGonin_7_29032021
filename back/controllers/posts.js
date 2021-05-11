@@ -51,19 +51,31 @@ exports.editPost = (req, res, next) => {
     file: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
   } : { ...JSON.parse(req.body.post) };
 
-  Post.update({
-    text: data.text,
-    file: data.file
-   }, { where: { id: req.params.id } })
-  .then((found) => {
-    if (found[0]) {
-      res.status(200).json({ message: "Post mis à jour !" });
-    }
-    else {
-      res.status(404).json({ error: "Post non trouvé." });
+  Post.findByPk(req.params.id)
+  .then((post) => {
+    if ((req.file || data.deletefile) && post.file) {
+      const filename = post.file.split("/uploads")[1];
+
+      try {
+        fs.unlinkSync(`uploads/${filename}`);
+      } catch (e) {
+        res.status(500).json({ error: "Impossible de supprimer l'ancienne image." })
+      }
     }
   })
-  .catch((error) => res.status(500).json({ error: "Impossible de mettre à jour le post." }));
+  .then(() => {
+    Post.update(data, { where: { id: req.params.id } })
+    .then((found) => {
+      if (found[0]) {
+        res.status(200).json({ message: "Post mis à jour !" });
+      }
+      else {
+        res.status(500).json({ error: "Impossible de mettre à jour le post." });
+      }
+    })
+  })
+  .catch((error) => res.status(500).json({ error: "Une erreur s'est produite pendant la mise à jour." }));
+
 };
 exports.deletePost = (req, res, next) => {
   Post.findByPk(req.params.id)

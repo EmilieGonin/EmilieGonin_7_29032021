@@ -244,7 +244,8 @@ export default {
       };
       const formData = new FormData();
       if (this.deleteFile) {
-        post.file = null;
+        post.deletefile = true;
+        post.file = "";
       } else if (this.postFile) {
         formData.append("file", this.postFile);
       }
