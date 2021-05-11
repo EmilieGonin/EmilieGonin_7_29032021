@@ -72,20 +72,7 @@ export default createStore({
     }
   },
   actions: {
-    getPosts({ commit }) {
-      commit("REQUEST");
-      axios.get("http://localhost:3000/api/posts")
-      .then(response => {
-        commit("SET_POSTS", response.data.posts)
-      })
-    },
-    getPost({ commit }, { postId }) {
-      commit("REQUEST");
-      axios.get("http://localhost:3000/api/posts/" + postId)
-      .then(response => {
-        commit("SET_POST", response.data.post);
-      })
-    },
+    // User
     signup({ commit }, user) {
       return new Promise((resolve, reject) => {
         commit("REQUEST");
@@ -147,6 +134,21 @@ export default createStore({
         })
       })
     },
+    // Posts
+    getPosts({ commit }) {
+      commit("REQUEST");
+      axios.get("http://localhost:3000/api/posts")
+      .then(response => {
+        commit("SET_POSTS", response.data.posts)
+      })
+    },
+    getPost({ commit }, { postId }) {
+      commit("REQUEST");
+      axios.get("http://localhost:3000/api/posts/" + postId)
+      .then(response => {
+        commit("SET_POST", response.data.post);
+      })
+    },
     newpost({ commit }, post) {
       return new Promise((resolve, reject) => {
         commit("REQUEST");
@@ -201,10 +203,25 @@ export default createStore({
         })
       })
     },
+    // Comments
     newcomment({ commit }, comment) {
       return new Promise((resolve, reject) => {
         commit("REQUEST");
         axios.post("http://localhost:3000/api/comment", comment)
+        .then((response) => {
+          commit("SUCCESS");
+          resolve(response);
+        })
+        .catch((error) => {
+          commit("ERROR", error.response.data.error);
+          reject(error);
+        })
+      })
+    },
+    editComment({ commit }, [ comment, id ]) {
+      return new Promise((resolve, reject) => {
+        commit("REQUEST");
+        axios.put("http://localhost:3000/api/comment/" + id, comment)
         .then((response) => {
           commit("SUCCESS");
           resolve(response);
@@ -233,6 +250,7 @@ export default createStore({
         })
       })
     },
+    // Errors
     newError({ commit }, error) {
       commit("ERROR", error);
     },
