@@ -16,6 +16,7 @@ export default createStore({
       posts: [],
       post: {},
       user: user,
+      profileUser: "",
       loading: false,
       error: "",
       confirmation: ""
@@ -31,6 +32,7 @@ export default createStore({
     user: state => {
       return state.user.user;
     },
+    profileUser: state => { return state.profileUser },
     loading: state => {
       return state.loading;
     },
@@ -54,6 +56,9 @@ export default createStore({
     SET_POST(state, post) {
       state.post = post;
       state.loading = false;
+    },
+    SET_PROFILE_USER(state, user) {
+      state.profileUser = user;
     },
     AUTH_SUCCESS(state, user) {
       localStorage.setItem("user", JSON.stringify(user));
@@ -92,7 +97,7 @@ export default createStore({
         commit("REQUEST");
         axios.get("http://localhost:3000/api/user/" + id)
         .then(response => {
-          commit("SUCCESS", response.data.post);
+          commit("SUCCESS");
           resolve(response);
         })
         .catch(error => {
@@ -190,6 +195,17 @@ export default createStore({
       axios.get("http://localhost:3000/api/posts")
       .then(response => {
         commit("SET_POSTS", response.data.posts)
+      })
+    },
+    getUserPosts({ commit }, id) {
+      commit("REQUEST");
+      axios.get("http://localhost:3000/api/user/" + id)
+      .then(response => {
+        commit("SET_PROFILE_USER", response.data.user)
+        axios.get("http://localhost:3000/api/posts/user/" + id)
+        .then(response => {
+          commit("SET_POSTS", response.data.posts)
+        })
       })
     },
     getPost({ commit }, { postId }) {
