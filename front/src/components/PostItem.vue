@@ -287,6 +287,7 @@ export default {
   background: $block-color;
   margin: 15px;
   border-radius: 5px;
+  overflow: hidden;
   &__header {
     display: flex;
     align-items: center;
@@ -371,6 +372,7 @@ export default {
   }
   &__file-container {
     position: relative;
+    max-height: 350px;
   }
   &__file-buttons {
     display: flex;
