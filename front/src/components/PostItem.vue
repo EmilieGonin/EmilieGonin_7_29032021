@@ -188,7 +188,12 @@ export default {
       }
     },
     isPostPage() {
-      if (this.$route.params.id) {
+      if (this.$route.name == "Post") {
+        return true;
+      }
+    },
+    isProfilePage() {
+      if (this.$route.name == "User") {
         return true;
       }
     },
@@ -202,6 +207,8 @@ export default {
         .then(() => {
           if (this.isPostPage()) {
             this.$router.push("/");
+          } else if (this.isProfilePage()) {
+            this.$store.dispatch("getUserPosts", this.$route.params.id);
           } else {
             this.$store.dispatch("getPosts");
           }
@@ -256,6 +263,8 @@ export default {
         .then(() => {
           if (this.isPostPage()) {
             this.$store.dispatch("getPost", { postId: this.$route.params.id });
+          } else if (this.isProfilePage()) {
+            this.$store.dispatch("getUserPosts", this.$route.params.id);
           } else {
             this.$store.dispatch("getPosts");
           }
