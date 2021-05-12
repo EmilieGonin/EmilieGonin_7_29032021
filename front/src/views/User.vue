@@ -15,7 +15,8 @@
       <PostItem v-for="post in posts" v-bind="post" :key="post.id"></PostItem>
     </div>
     <div class="user__empty-posts" v-else>
-      <span>Cet utilisateur n'a aucun post.</span>
+      <span v-if="isOwnProfile()">Vous ne possédez aucun post.</span>
+      <span v-else>Cet utilisateur ne possède aucun post.</span>
     </div>
   </div>
 </template>
@@ -35,11 +36,19 @@ export default {
     "loading",
     "isLoggedIn",
     "error",
+    "user",
     "posts",
     "profileUser"
   ]),
   created() {
     this.$store.dispatch("getUserPosts", this.$route.params.id);
+  },
+  methods: {
+    isOwnProfile() {
+      if (this.profileUser.id == this.user.id) {
+        return true;
+      }
+    }
   }
 };
 </script>
