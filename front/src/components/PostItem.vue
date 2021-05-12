@@ -394,7 +394,6 @@ export default {
       }
     }
     &--add {
-      // padding: 5px 10px;
       background: $tertiary-color;
       &:hover {
         background: darken($tertiary-color, 5%);
@@ -413,6 +412,7 @@ export default {
     width: 100%;
     max-height: 350px;
     object-fit: cover;
+    cursor: pointer;
   }
   &__comments {
     display: flex;
