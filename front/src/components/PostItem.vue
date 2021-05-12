@@ -25,7 +25,7 @@
             class="post-item__menu-link post-item__menu-link--delete"
             @click="deletePost(id, User.id)"
           >
-            <i class="far fa-trash-alt fa-fw"></i> Supprimer
+            <i class="far fa-trash-alt fa-fw"></i>
           </li>
           <!--Post Edit button-->
           <li
@@ -33,7 +33,7 @@
             @click="edit()"
             v-if="User.id == user.id"
           >
-            <i class="far fa-pen fa-fw"></i> Modifier
+            <i class="far fa-pen fa-fw"></i>
           </li>
         </ul>
       </div>
