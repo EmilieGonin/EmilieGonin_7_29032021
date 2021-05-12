@@ -3,6 +3,7 @@
     <!--Signup Form-->
     <form
       class="form"
+      :class="{ slide: error }"
       @submit.prevent="signupForm"
       action="index.html"
       method="post"
@@ -73,6 +74,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import FormItem from "@/components/FormItem.vue";
 
 export default {
@@ -88,6 +90,7 @@ export default {
       lastName: ""
     };
   },
+  computed: mapGetters(["error"]),
   methods: {
     signupForm() {
       try {

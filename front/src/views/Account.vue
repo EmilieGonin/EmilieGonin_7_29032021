@@ -2,7 +2,8 @@
   <div class="account" v-if="isLoggedIn">
     <!--Account Form-->
     <form
-      class="form"
+      class="form animated"
+      :class="{ slide: error || confirmation }"
       @submit.prevent="editUser"
       enctype="multipart/form-data"
       action="index.html"
@@ -140,7 +141,7 @@ export default {
     FormItem,
     UserAvatar
   },
-  computed: mapGetters(["user", "isLoggedIn"]),
+  computed: mapGetters(["user", "isLoggedIn", "error", "confirmation"]),
   methods: {
     handleFile() {
       this.file = this.$refs.file.files[0];

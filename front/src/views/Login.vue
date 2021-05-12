@@ -3,6 +3,7 @@
     <!--Login Form-->
     <form
       class="form"
+      :class="{ slide: error }"
       @submit.prevent="loginForm"
       action="index.html"
       method="post"
@@ -57,6 +58,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import FormItem from "@/components/FormItem.vue";
 
 export default {
@@ -70,6 +72,7 @@ export default {
       password: ""
     };
   },
+  computed: mapGetters(["error"]),
   methods: {
     loginForm() {
       try {

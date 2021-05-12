@@ -33,10 +33,12 @@ export default {
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transform: translateY(0px);
+  transition: all 0.5s;
 }
 .fade-enter-from,
 .fade-leave-to {
+  transform: translateY(-50px);
   opacity: 0;
 }
 </style>

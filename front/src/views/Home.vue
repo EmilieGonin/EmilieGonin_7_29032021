@@ -3,7 +3,8 @@
   <div v-if="!loading">
     <!--New Post Form-->
     <form
-      class="newpost"
+      class="newpost animated"
+      :class="{ slide: error }"
       @submit.prevent="newpost"
       enctype="multipart/form-data"
       action="index.html"
@@ -74,7 +75,7 @@ export default {
       preview: ""
     };
   },
-  computed: mapGetters(["user", "posts", "isLoggedIn", "loading"]),
+  computed: mapGetters(["user", "posts", "isLoggedIn", "loading", "error"]),
   created() {
     this.$store.dispatch("getPosts");
   },

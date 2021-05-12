@@ -6,6 +6,7 @@
     <!--New Comment Form-->
     <form
       class="newcomment"
+      :class="{ slide: error }"
       @submit.prevent="newcomment"
       action="index.html"
       method="post"
@@ -58,7 +59,7 @@ export default {
       text: ""
     };
   },
-  computed: mapGetters(["user", "post", "loading", "isLoggedIn"]),
+  computed: mapGetters(["user", "post", "loading", "isLoggedIn", "error"]),
   created() {
     this.$store.dispatch("getPost", { postId: this.$route.params.id });
   },
