@@ -66,7 +66,7 @@ exports.editPost = (req, res, next) => {
   .then(() => {
     Post.update(data, { where: { id: req.params.id } })
     .then((found) => {
-      if (found[0]) {
+      if (found == 1) {
         res.status(200).json({ message: "Post mis à jour !" });
       }
       else {
