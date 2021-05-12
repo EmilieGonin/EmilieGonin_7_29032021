@@ -26,7 +26,7 @@ exports.userSignup = (req, res, next) => {
         { expiresIn: "24h" }
       )
     }))
-  	.catch(() => res.status(400).json({ error: "Impossible d'enregistrer l'utiisateur dans la base de données." }));
+  	.catch(() => res.status(400).json({ error: "Vérifiez que vos données soient exactes ou que votre adresse email ne soit pas déjà utilisée." }));
   })
   .catch(() => res.status(500).json({ error: "Impossible de créer l'utilisteur." }));
 };
