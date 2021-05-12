@@ -81,14 +81,15 @@ exports.deletePost = (req, res, next) => {
   .then((post) => {
     if (post.file) {
       const filename = post.file.split("/uploads")[1];
-      fs.unlinkSync(`uploads/${filename}`, (error) => {
-        if (error) {
-          throw error;
-        }
-      })
+      try {
+        fs.unlinkSync(`uploads/${filename}`);
+      } catch (e) {
+        res.status(500).json({ error: "Impossible de supprimer l'ancienne image." })
+      }
     }
-
-    post.destroy()
+  })
+  .then(() => {
+    Post.destroy({ where: { id: req.params.id } })
     .then(() => res.status(200).json({ message: "Post supprimé !" }))
     .catch((error) => res.status(500).json({ error: "Impossible de supprimer le post" }));
   })
