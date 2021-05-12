@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoggedIn">
+  <div v-if="!loading && isLoggedIn">
     <div class="user">
       <UserAvatar
         class="user__avatar"
@@ -31,7 +31,13 @@ export default {
     PostItem,
     UserAvatar
   },
-  computed: mapGetters(["isLoggedIn", "error", "posts", "profileUser"]),
+  computed: mapGetters([
+    "loading",
+    "isLoggedIn",
+    "error",
+    "posts",
+    "profileUser"
+  ]),
   created() {
     this.$store.dispatch("getUserPosts", this.$route.params.id);
   }
