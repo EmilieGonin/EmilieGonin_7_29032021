@@ -17,7 +17,8 @@ export default createStore({
       post: {},
       user: user,
       loading: false,
-      error: ""
+      error: "",
+      confirmation: ""
     }
   },
   getters: {
@@ -36,6 +37,11 @@ export default createStore({
     error: state => {
       if (state.error) {
         return state.error;
+      }
+    },
+    confirmation: state => {
+      if (state.confirmation) {
+        return state.confirmation;
       }
     },
     isLoggedIn: state => !!state.user
@@ -71,6 +77,12 @@ export default createStore({
     },
     RESET_ERROR(state) {
       state.error = "";
+    },
+    CONFIRMATION(state, message) {
+      state.confirmation = message;
+    },
+    RESET_CONFIRMATION(state) {
+      state.confirmation = "";
     }
   },
   actions: {
@@ -294,7 +306,13 @@ export default createStore({
     },
     resetError({ commit }) {
       commit("RESET_ERROR");
-    }
+    },
+    newConfirmation({ commit }, message) {
+      commit("CONFIRMATION", message);
+      setTimeout(() => {
+        commit("RESET_CONFIRMATION");
+      }, 2000)
+    },
   },
   modules: {
   }

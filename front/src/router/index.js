@@ -40,9 +40,12 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  //reset state error if necessary
+  //reset state error and confirmation if necessary
   if (store.state.error) {
     store.dispatch("resetError");
+  }
+  if (store.state.confirmation) {
+    store.dispatch("resetConfirmation");
   }
 
   //redirect if not logged in

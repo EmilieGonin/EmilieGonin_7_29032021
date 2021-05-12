@@ -192,6 +192,10 @@ export default {
         .then(() => {
           this.file = "";
           this.preview = "";
+          this.$store.dispatch(
+            "newConfirmation",
+            "Les données ont bien été modifiées !"
+          );
         })
         .catch(() =>
           console.error(

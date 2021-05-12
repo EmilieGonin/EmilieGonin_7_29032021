@@ -24,16 +24,19 @@
     </div>
   </div>
   <ErrorMessage></ErrorMessage>
+  <ConfirmationMessage></ConfirmationMessage>
   <router-view class="view" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import ErrorMessage from "@/components/ErrorMessage.vue";
+import ConfirmationMessage from "@/components/ConfirmationMessage.vue";
 
 export default {
   components: {
-    ErrorMessage
+    ErrorMessage,
+    ConfirmationMessage
   },
   computed: mapGetters(["user", "isLoggedIn"]),
   methods: {
@@ -53,6 +56,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 .nav {
+  position: relative;
+  z-index: 2;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
