@@ -2,8 +2,7 @@
   <div class="account" v-if="isLoggedIn">
     <!--Account Form-->
     <form
-      class="form animated"
-      :class="{ slide: error || confirmation }"
+      class="form"
       @submit.prevent="editUser"
       enctype="multipart/form-data"
       action="index.html"

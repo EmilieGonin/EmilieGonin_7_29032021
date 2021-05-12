@@ -3,8 +3,7 @@
   <div v-if="!loading">
     <!--New Post Form-->
     <form
-      class="newpost animated"
-      :class="{ slide: error }"
+      class="newpost"
       @submit.prevent="newpost"
       enctype="multipart/form-data"
       action="index.html"

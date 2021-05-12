@@ -3,7 +3,6 @@
     <!--Login Form-->
     <form
       class="form"
-      :class="{ slide: error }"
       @submit.prevent="loginForm"
       action="index.html"
       method="post"

@@ -3,7 +3,6 @@
     <!--Signup Form-->
     <form
       class="form"
-      :class="{ slide: error }"
       @submit.prevent="signupForm"
       action="index.html"
       method="post"

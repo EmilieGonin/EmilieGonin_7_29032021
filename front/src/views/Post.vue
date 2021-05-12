@@ -6,7 +6,6 @@
     <!--New Comment Form-->
     <form
       class="newcomment"
-      :class="{ slide: error }"
       @submit.prevent="newcomment"
       action="index.html"
       method="post"

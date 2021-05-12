@@ -25,7 +25,7 @@
   </div>
   <ErrorMessage></ErrorMessage>
   <ConfirmationMessage></ConfirmationMessage>
-  <router-view class="view" />
+  <router-view class="view" :class="{ slide: error || confirmation }" />
 </template>
 
 <script>
@@ -38,7 +38,7 @@ export default {
     ErrorMessage,
     ConfirmationMessage
   },
-  computed: mapGetters(["user", "isLoggedIn"]),
+  computed: mapGetters(["user", "isLoggedIn", "error", "confirmation"]),
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => this.$router.push("/login"));
@@ -91,5 +91,6 @@ export default {
   width: 100%;
   max-width: 700px;
   margin: auto;
+  transition: transform 0.5s;
 }
 </style>
