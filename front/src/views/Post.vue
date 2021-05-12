@@ -70,8 +70,10 @@ export default {
           postId: this.$store.getters.post.id,
           userId: this.$store.getters.user.id
         };
-        if (comment.text == "") {
-          throw "Le commentaire ne peut être vide.";
+        if (!comment.text) {
+          const error = "Le commentaire ne peut être vide.";
+          this.$store.dispatch("newError", error);
+          throw error;
         }
         this.$store
           .dispatch("newcomment", comment)
