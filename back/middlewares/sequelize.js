@@ -24,6 +24,14 @@ db.Post.belongsTo(db.User);
 db.Post.hasMany(db.Comment, { onDelete: "CASCADE" });
 db.Comment.belongsTo(db.Post);
 
+db.User.beforeCreate(async (user) => {
+  user.password = await bcrypt.hash(user.password, 10);
+})
+
+db.User.prototype.passwordIsValid = async function(password) {
+  return await bcrypt.compare(password, this.password);
+}
+
 sequelize.authenticate()
 .then(() => console.log("Connexion à la base de données MySQL terminée !"))
 .catch((error) => console.error("Impossible de se connecter à la base de données :", error));
@@ -33,20 +41,16 @@ sequelize.sync({ force: true })
   console.log("Base de données synchronisée avec succès !");
 
   //Create admin user
-  db.User.findByPk(1)
-  .then((user) => {
-    if (!user) {
-      bcrypt.hash(process.env.ADMIN_PASSWORD, 10)
-      .then((hash) => {
-        db.User.create({
-          firstName: "Admin",
-          lastName: "Admin",
-          email: "admin@email.com",
-          password: hash,
-          isAdmin: true
-        })
-      })
-    }
-  })
+  db.User.findOrCreate({
+    where: {
+      email: "admin@email.com"
+    },
+    defaults: {
+    firstName: "Admin",
+    lastName: "Admin",
+    email: "admin@email.com",
+    password: process.env.ADMIN_PASSWORD,
+    isAdmin: true
+  }})
 })
 .catch((error) => console.error(error));

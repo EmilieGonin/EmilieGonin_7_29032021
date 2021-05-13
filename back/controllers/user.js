@@ -1,5 +1,4 @@
 const { User } = require("../middlewares/sequelize");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require('fs');
 require("dotenv").config();
@@ -10,34 +9,29 @@ exports.getUser = (req, res, next) => {
   .catch((error) => res.status(500).json({ error: "Impossible d'afficher l'utilisateur." }));
 };
 exports.userSignup = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10)
-  .then(hash => {
-    const user = User.create({
-      email: req.body.email,
-      password: hash,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName
-    })
-    .then((user) => res.status(201).json({
-      user: user,
-      token: jwt.sign(
-        { userId: user.id },
-        process.env.SECRET,
-        { expiresIn: "24h" }
-      )
-    }))
-  	.catch(() => res.status(400).json({ error: "Vérifiez que vos données soient exactes ou que votre adresse email ne soit pas déjà utilisée." }));
+  const user = User.create({
+    email: req.body.email,
+    password: req.body.password,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName
   })
-  .catch(() => res.status(500).json({ error: "Impossible de créer l'utilisteur." }));
+  .then((user) => res.status(201).json({
+    user: user,
+    token: jwt.sign(
+      { userId: user.id },
+      process.env.SECRET,
+      { expiresIn: "24h" }
+    )
+  }))
+  .catch(() => res.status(400).json({ error: "Vérifiez que vos données soient exactes ou que votre adresse email ne soit pas déjà utilisée." }));
 };
 exports.userLogin = (req, res, next) => {
   User.findOne({ where: { email: req.body.email } })
   .then(user => {
-    bcrypt.compare(req.body.password, user.password)
-    .then(valid => {
-      if (!valid) {
-        return res.status(401).json({ error: "Mot de passe incorrect." });
-      }
+    if (!user.passwordIsValid(req.body.password)) {
+      return res.status(401).json({ error: "Mot de passe incorrect." });
+    }
+    else {
       res.status(200).json({
         user: user,
         token: jwt.sign(
@@ -46,8 +40,7 @@ exports.userLogin = (req, res, next) => {
           { expiresIn: "24h" }
         )
       });
-    })
-    .catch(() => res.status(500).json({ error: "Une erreur s'est produite." }));
+    }
   })
   .catch(() => res.status(401).json({ error: "Utilisateur non trouvé." }));
 };
