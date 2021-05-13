@@ -28,6 +28,7 @@ db.User = require("../models/User")(sequelize, Sequelize);
 db.Post = require("../models/Post")(sequelize, Sequelize);
 db.Comment = require("../models/Comment")(sequelize, Sequelize);
 
+//Associate models
 db.User.hasMany(db.Comment, { onDelete: "CASCADE" });
 db.Comment.belongsTo(db.User);
 
@@ -37,10 +38,10 @@ db.Post.belongsTo(db.User);
 db.Post.hasMany(db.Comment, { onDelete: "CASCADE" });
 db.Comment.belongsTo(db.Post);
 
+//Hash and compare every password before User signup and login
 db.User.beforeCreate(async (user) => {
   user.password = await bcrypt.hash(user.password, 10);
 })
-
 db.User.prototype.passwordIsValid = async function(password) {
   return await bcrypt.compare(password, this.password);
 }
