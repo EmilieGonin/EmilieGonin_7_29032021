@@ -45,7 +45,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      if (to.params.id != from.params.id) {
+      if (to.name == "User" && to.params.id != from.params.id) {
         this.$store.dispatch("getUserPosts", this.$route.params.id);
       }
     }
