@@ -5,7 +5,8 @@
     </router-link>
     <div class="nav__links">
       <router-link class="nav__link" :to="'/user/' + user.id" v-if="isLoggedIn">
-        {{ user.firstName }} {{ user.lastName }}
+        <span v-if="showIcon"><i class="fas fa-user"></i></span>
+        <span v-else>{{ user.firstName }} {{ user.lastName }}</span>
       </router-link>
       <router-link class="nav__link" to="/login" v-else>
         <div>Se connecter</div>
@@ -38,10 +39,22 @@ export default {
     ErrorMessage,
     ConfirmationMessage
   },
+  data() {
+    return {
+      showIcon: false
+    };
+  },
   computed: mapGetters(["user", "isLoggedIn", "error", "confirmation"]),
+  mounted() {
+    this.checkWidth();
+    window.addEventListener("resize", this.checkWidth);
+  },
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => this.$router.push("/login"));
+    },
+    checkWidth() {
+      this.showIcon = window.innerWidth < 510;
     }
   }
 };
