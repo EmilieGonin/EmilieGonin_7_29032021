@@ -9,28 +9,23 @@
         {{ User.firstName }} {{ User.lastName }}
       </router-link>
       <!--Comment Menu-->
-      <div class="comment-item__menu" v-if="User.id == user.id || user.isAdmin">
-        <div class="comment-item__menu-button" @click="toggle = !toggle">
-          <i class="fal fa-ellipsis-h fa-fw"></i>
-        </div>
-        <ul v-show="toggle" class="comment-item__menu-links">
-          <!--Comment Delete button-->
-          <li
-            class="comment-item__menu-link comment-item__menu-link--delete"
-            @click="deleteComment(id, User.id)"
-          >
-            <i class="far fa-trash-alt fa-fw"></i> Supprimer
-          </li>
-          <!--Comment Edit button-->
-          <li
-            class="comment-item__menu-link"
-            @click="edit()"
-            v-if="User.id == user.id"
-          >
-            <i class="far fa-pen fa-fw"></i> Modifier
-          </li>
-        </ul>
-      </div>
+      <ul v-if="User.id == user.id || user.isAdmin" class="comment-item__menu">
+        <!--Comment Edit button-->
+        <li
+          class="comment-item__menu-link"
+          @click="edit()"
+          v-if="User.id == user.id"
+        >
+          <i class="far fa-pen fa-fw"></i>
+        </li>
+        <!--Comment Delete button-->
+        <li
+          class="comment-item__menu-link comment-item__menu-link--delete"
+          @click="deleteComment(id, User.id)"
+        >
+          <i class="far fa-trash-alt fa-fw"></i>
+        </li>
+      </ul>
     </div>
     <!--Comment Form-->
     <form
@@ -156,6 +151,7 @@ export default {
   margin: 15px;
   border-radius: 5px;
   &__header {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -167,18 +163,25 @@ export default {
     font-weight: bold;
   }
   &__menu {
-    z-index: 2;
-    position: relative;
-    margin-left: auto;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    display: flex;
+    border: 3px dashed $dark-theme;
+    border-radius: 10px;
+    padding: 5px;
   }
-  &__menu-button {
-    font-size: 20px;
-    padding: 2px;
-    border-radius: 20px;
+  &__menu-link {
+    padding: 6px;
+    align-items: center;
     cursor: pointer;
+    font-size: $font-mini;
+    border-radius: 24px;
     &:hover {
-      color: $primary-color;
-      background: fade-out($primary-color, 0.9);
+      background: fade-out(white, 0.9);
+    }
+    &--delete {
+      color: mix($primary-color, red, 50%);
     }
   }
   &__edit-form {
@@ -215,49 +218,6 @@ export default {
       &:hover {
         background: darken($error-color, 5%);
       }
-    }
-  }
-  &__menu-links {
-    position: absolute;
-    left: -10px;
-    margin-top: 10px;
-    padding: 10px;
-    background: $block-color;
-    border-radius: 10px;
-    border: 2px solid $dark-theme;
-    box-shadow: 0 0 3px black;
-    &::before {
-      content: "";
-      position: absolute;
-      top: -12px;
-      left: 11px;
-      border-style: solid;
-      border-width: 0 12px 12px;
-      border-color: $dark-theme transparent;
-    }
-    &::after {
-      content: "";
-      position: absolute;
-      top: -10px;
-      left: 13px;
-      border-style: solid;
-      border-width: 0 10px 10px;
-      border-color: $block-color transparent;
-    }
-  }
-  &__menu-link {
-    display: flex;
-    gap: 10px;
-    padding: 5px;
-    align-items: center;
-    cursor: pointer;
-    font-size: $font-default;
-    border-radius: 5px;
-    &:hover {
-      background: fade-out(white, 0.9);
-    }
-    &--delete {
-      color: mix($primary-color, red, 50%);
     }
   }
   &__message {

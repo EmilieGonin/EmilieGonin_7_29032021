@@ -15,28 +15,23 @@
         {{ User.firstName }} {{ User.lastName }}
       </router-link>
       <!--Post Menu-->
-      <div class="post-item__menu" v-if="User.id == user.id || user.isAdmin">
-        <div class="post-item__menu-button" @click="toggle = !toggle">
-          <i class="fal fa-ellipsis-h fa-fw"></i>
-        </div>
-        <ul v-show="toggle" class="post-item__menu-links">
-          <!--Post Delete button-->
-          <li
-            class="post-item__menu-link post-item__menu-link--delete"
-            @click="deletePost(id, User.id)"
-          >
-            <i class="far fa-trash-alt fa-fw"></i>
-          </li>
-          <!--Post Edit button-->
-          <li
-            class="post-item__menu-link"
-            @click="edit()"
-            v-if="User.id == user.id"
-          >
-            <i class="far fa-pen fa-fw"></i>
-          </li>
-        </ul>
-      </div>
+      <ul v-if="User.id == user.id || user.isAdmin" class="post-item__menu">
+        <!--Post Edit button-->
+        <li
+          class="post-item__menu-link"
+          @click="edit()"
+          v-if="User.id == user.id"
+        >
+          <i class="far fa-pen fa-fw"></i>
+        </li>
+        <!--Post Delete button-->
+        <li
+          class="post-item__menu-link post-item__menu-link--delete"
+          @click="deletePost(id, User.id)"
+        >
+          <i class="far fa-trash-alt fa-fw"></i>
+        </li>
+      </ul>
     </div>
     <!--Post Form-->
     <form
@@ -291,6 +286,7 @@ export default {
   border-radius: 5px;
   overflow: hidden;
   &__header {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -315,56 +311,20 @@ export default {
     gap: 5px;
   }
   &__menu {
-    z-index: 2;
-    position: relative;
-    margin-left: auto;
-  }
-  &__menu-button {
-    font-size: 20px;
-    padding: 2px;
-    border-radius: 20px;
-    cursor: pointer;
-    &:hover {
-      color: $primary-color;
-      background: fade-out($primary-color, 0.9);
-    }
-  }
-  &__menu-links {
     position: absolute;
-    left: -10px;
-    margin-top: 10px;
-    padding: 10px;
-    background: $block-color;
+    top: -5px;
+    right: -5px;
+    display: flex;
+    border: 3px dashed $dark-theme;
     border-radius: 10px;
-    border: 2px solid $dark-theme;
-    box-shadow: 0 0 3px black;
-    &::before {
-      content: "";
-      position: absolute;
-      top: -12px;
-      left: 11px;
-      border-style: solid;
-      border-width: 0 12px 12px;
-      border-color: $dark-theme transparent;
-    }
-    &::after {
-      content: "";
-      position: absolute;
-      top: -10px;
-      left: 13px;
-      border-style: solid;
-      border-width: 0 10px 10px;
-      border-color: $block-color transparent;
-    }
+    padding: 5px;
   }
   &__menu-link {
-    display: flex;
-    gap: 10px;
-    padding: 5px;
+    padding: 6px;
     align-items: center;
     cursor: pointer;
-    font-size: $font-default;
-    border-radius: 5px;
+    font-size: $font-mini;
+    border-radius: 24px;
     &:hover {
       background: fade-out(white, 0.9);
     }
