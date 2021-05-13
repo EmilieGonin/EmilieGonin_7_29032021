@@ -119,8 +119,7 @@ export default {
   }
   &__button {
     cursor: pointer;
-    width: 15%;
-    max-width: 100px;
+    width: 100px;
     background: $primary-color;
     color: white;
     padding: 10px;
