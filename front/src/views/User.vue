@@ -43,6 +43,13 @@ export default {
   created() {
     this.$store.dispatch("getUserPosts", this.$route.params.id);
   },
+  watch: {
+    $route(to, from) {
+      if (to.params.id != from.params.id) {
+        this.$store.dispatch("getUserPosts", this.$route.params.id);
+      }
+    }
+  },
   methods: {
     isOwnProfile() {
       if (this.profileUser.id == this.user.id) {
