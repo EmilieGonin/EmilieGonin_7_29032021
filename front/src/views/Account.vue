@@ -58,6 +58,7 @@
               id="file"
               ref="file"
               @change="handleFile()"
+              accept="image/png, image/jpeg"
             />
           </div>
           <!--First Name-->

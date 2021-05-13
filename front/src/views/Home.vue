@@ -41,6 +41,7 @@
           ref="file"
           @change="handleFile()"
           class="hidden"
+          accept="image/png, image/jpeg"
         />
         <label for="file" class="newpost__upload-button">
           <i class="far fa-image-polaroid fa-fw"></i>

@@ -76,6 +76,7 @@
             ref="postFile"
             @change="handlePostFile()"
             class="hidden"
+            accept="image/png, image/jpeg"
           />
           <!--Upload File Button-->
           <label for="postFile" class="post-item__button">
@@ -112,6 +113,7 @@
           ref="postFile"
           @change="handlePostFile()"
           class="hidden"
+          accept="image/png, image/jpeg"
         />
         <label for="postFile" class="post-item__button post-item__button--add">
           <i class="fas fa-plus fa-fw"></i>
