@@ -17,6 +17,7 @@ cd back
 - DB_USERNAME=""
 - DB_PASSWORD=""
 ```
+Database will be automatically created.
 
 ### Setup
 ```

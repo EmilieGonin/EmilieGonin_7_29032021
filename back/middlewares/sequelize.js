@@ -1,11 +1,24 @@
 const { Sequelize } = require("sequelize");
+const mysql = require("mysql2");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 module.exports = db = {};
 
-//Connect to db
-sequelize = new Sequelize("test", "root", null, {
+//Create database if it doesn't already exist
+const connection = mysql.createConnection({
+	host: process.env.DB_HOST,
+	user: process.env.DB_USERNAME,
+	password: process.env.DB_PASSWORD
+});
+connection.query("CREATE DATABASE IF NOT EXISTS " + process.env.DB_NAME);
+
+//Connect to database
+sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
   dialect: "mysql",
   logging: false
 });
