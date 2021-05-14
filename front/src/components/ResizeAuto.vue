@@ -2,10 +2,16 @@
 export default {
   name: "ResizeAuto",
   methods: {
-    resize(event) {
-      event.target.style.height = "auto";
-      event.target.style.height = `${event.target.scrollHeight}px`;
+    resize() {
+      this.$el.nextSibling.style.height = "auto";
+      this.$el.nextSibling.style.height = `${this.$el.nextSibling.scrollHeight}px`;
     }
+  },
+  mounted() {
+    this.resize();
+  },
+  updated() {
+    this.resize();
   },
   render() {
     return this.$slots.default({
