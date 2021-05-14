@@ -27,12 +27,14 @@ exports.getPost = (req, res, next) => {
   .catch((error) => res.status(500).json({ error: "Impossible d'afficher le post." }));
 };
 exports.newPost = (req, res, next) => {
+  //Get data from request
   const data = req.file ?
   {
     ...JSON.parse(req.body.post),
     file: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
   } : { ...JSON.parse(req.body.post) };
 
+  //Get user to associate the new created post
   User.findByPk(data.userId)
   .then(user => {
     user.createPost({
@@ -45,6 +47,7 @@ exports.newPost = (req, res, next) => {
   .catch(() => res.status(401).json({ error: "Utilisateur introuvable." }));
 };
 exports.editPost = (req, res, next) => {
+  //Get data from request
   const data = req.file ?
   {
     ...JSON.parse(req.body.post),
@@ -53,6 +56,7 @@ exports.editPost = (req, res, next) => {
 
   Post.findByPk(req.params.id)
   .then((post) => {
+    //Delete previous post file if necessary
     if ((req.file || data.deletefile) && post.file) {
       const filename = post.file.split("/uploads")[1];
 
@@ -62,9 +66,9 @@ exports.editPost = (req, res, next) => {
         res.status(500).json({ error: "Impossible de supprimer l'ancienne image." })
       }
     }
-  })
-  .then(() => {
-    Post.update(data, { where: { id: req.params.id } })
+
+    //Update post
+    post.update(data)
     .then((found) => {
       if (found == 1) {
         res.status(200).json({ message: "Post mis à jour !" });
@@ -79,6 +83,7 @@ exports.editPost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   Post.findByPk(req.params.id)
   .then((post) => {
+    //Delete post file if necessary
     if (post.file) {
       const filename = post.file.split("/uploads")[1];
       try {
@@ -87,8 +92,8 @@ exports.deletePost = (req, res, next) => {
         res.status(500).json({ error: "Impossible de supprimer l'ancienne image." })
       }
     }
-  })
-  .then(() => {
+
+    //Delete post
     Post.destroy({ where: { id: req.params.id } })
     .then(() => res.status(200).json({ message: "Post supprimé !" }))
     .catch((error) => res.status(500).json({ error: "Impossible de supprimer le post" }));
