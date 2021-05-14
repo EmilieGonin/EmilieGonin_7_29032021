@@ -44,6 +44,11 @@ export default {
       showIcon: false
     };
   },
+  watch: {
+    confirmation() {
+      window.scroll({ top: 0, behavior: "smooth" });
+    }
+  },
   computed: mapGetters(["user", "isLoggedIn", "error", "confirmation"]),
   mounted() {
     this.checkWidth();
