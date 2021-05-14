@@ -94,7 +94,7 @@ exports.deletePost = (req, res, next) => {
     }
 
     //Delete post
-    Post.destroy({ where: { id: req.params.id } })
+    post.destroy()
     .then(() => res.status(200).json({ message: "Post supprimé !" }))
     .catch((error) => res.status(500).json({ error: "Impossible de supprimer le post" }));
   })

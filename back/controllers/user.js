@@ -67,10 +67,9 @@ exports.userUpdate = (req, res, next) => {
         res.status(500).json({ error: "Impossible de supprimer l'ancien avatar." })
       }
     }
-  })
-  .then(() => {
+
     //Update user
-    User.update(data, { where: { id: req.params.id } })
+    user.update(data)
     .then((found) => {
       if (found != 0) {
         res.status(200).json({ message: "Utilisateur mis à jour !" });
