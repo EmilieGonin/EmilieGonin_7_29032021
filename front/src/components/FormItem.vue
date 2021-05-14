@@ -28,6 +28,13 @@ export default {
   border-radius: 10px;
   border: 5px solid $block-color;
   box-shadow: 0 0 5px black;
+  &--mobile {
+    margin-top: 0;
+    border: none;
+    border-bottom: 5px solid $block-color;
+    box-shadow: none;
+    border-radius: 0;
+  }
   &__title {
     width: 100%;
     border-radius: 10px 10px 0 0;

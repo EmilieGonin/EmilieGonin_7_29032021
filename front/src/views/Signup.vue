@@ -3,6 +3,7 @@
     <!--Signup Form-->
     <form
       class="form"
+      :class="{ 'form--mobile': onMobile }"
       @submit.prevent="signupForm"
       action="index.html"
       method="post"
@@ -83,6 +84,7 @@ export default {
   },
   data() {
     return {
+      onMobile: false,
       email: "",
       password: "",
       firstName: "",
@@ -90,7 +92,14 @@ export default {
     };
   },
   computed: mapGetters(["error"]),
+  mounted() {
+    this.checkDevice();
+    window.addEventListener("resize", this.checkDevice);
+  },
   methods: {
+    checkDevice() {
+      this.onMobile = window.innerWidth < 700;
+    },
     signupForm() {
       try {
         const user = {

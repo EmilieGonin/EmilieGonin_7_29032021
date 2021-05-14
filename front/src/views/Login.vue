@@ -3,6 +3,7 @@
     <!--Login Form-->
     <form
       class="form"
+      :class="{ 'form--mobile': onMobile }"
       @submit.prevent="loginForm"
       action="index.html"
       method="post"
@@ -67,12 +68,20 @@ export default {
   },
   data() {
     return {
+      onMobile: false,
       email: "",
       password: ""
     };
   },
   computed: mapGetters(["error"]),
+  mounted() {
+    this.checkDevice();
+    window.addEventListener("resize", this.checkDevice);
+  },
   methods: {
+    checkDevice() {
+      this.onMobile = window.innerWidth < 700;
+    },
     loginForm() {
       try {
         const user = {

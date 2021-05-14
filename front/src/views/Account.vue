@@ -3,6 +3,7 @@
     <!--Account Form-->
     <form
       class="form"
+      :class="{ 'form--mobile': onMobile }"
       @submit.prevent="editUser"
       enctype="multipart/form-data"
       action="index.html"
@@ -130,6 +131,7 @@ export default {
   name: "Account",
   data() {
     return {
+      onMobile: false,
       firstName: this.$store.getters.user.firstName,
       lastName: this.$store.getters.user.lastName,
       file: "",
@@ -142,7 +144,14 @@ export default {
     UserAvatar
   },
   computed: mapGetters(["user", "isLoggedIn", "error", "confirmation"]),
+  mounted() {
+    this.checkDevice();
+    window.addEventListener("resize", this.checkDevice);
+  },
   methods: {
+    checkDevice() {
+      this.onMobile = window.innerWidth < 700;
+    },
     handleFile() {
       this.file = this.$refs.file.files[0];
       this.preview = URL.createObjectURL(this.file);
