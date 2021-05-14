@@ -72,7 +72,7 @@ exports.userUpdate = (req, res, next) => {
     //Update user
     User.update(data, { where: { id: req.params.id } })
     .then((found) => {
-      if (found == 1) {
+      if (found != 0) {
         res.status(200).json({ message: "Utilisateur mis à jour !" });
       }
       else {

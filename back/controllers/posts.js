@@ -70,7 +70,7 @@ exports.editPost = (req, res, next) => {
     //Update post
     post.update(data)
     .then((found) => {
-      if (found == 1) {
+      if (found != 0) {
         res.status(200).json({ message: "Post mis à jour !" });
       }
       else {

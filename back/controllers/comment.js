@@ -15,7 +15,7 @@ exports.newComment = (req, res, next) => {
 exports.editComment = (req, res, next) => {
   Comment.update({ text: req.body.text }, { where: { id: req.params.id } })
   .then((found) => {
-    if (found == 1) {
+    if (found != 0) {
       res.status(200).json({ message: "Commentaire mis à jour !" });
     }
     else {
