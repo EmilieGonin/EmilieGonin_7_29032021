@@ -175,14 +175,16 @@ export default {
       button.classList.add("hidden");
     },
     deleteUser() {
-      this.$store
-        .dispatch("deleteUser", this.user.id)
-        .then(() => this.$router.push("/login"))
-        .catch(() =>
-          console.error(
-            "Une erreur s'est produite pendant la suppression de l'utilisateur."
-          )
-        );
+      if (confirm("Voulez-vous vraiment supprimer votre compte ?")) {
+        this.$store
+          .dispatch("deleteUser", this.user.id)
+          .then(() => this.$router.push("/login"))
+          .catch(() =>
+            console.error(
+              "Une erreur s'est produite pendant la suppression de l'utilisateur."
+            )
+          );
+      }
     },
     editUser() {
       const user = {
