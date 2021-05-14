@@ -181,7 +181,9 @@ export default {
   methods: {
     redirect() {
       if (!this.isPostPage() && !this.editable) {
-        this.$router.push("/post/" + this.id);
+        if (!window.getSelection().toString()) {
+          this.$router.push("/post/" + this.id);
+        }
       }
     },
     isPostPage() {
