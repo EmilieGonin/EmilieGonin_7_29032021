@@ -9,11 +9,6 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "ConfirmationMessage",
-  data() {
-    return {
-      show: false
-    };
-  },
   computed: mapGetters(["confirmation"])
 };
 </script>
