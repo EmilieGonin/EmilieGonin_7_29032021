@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     getDate() {
-      return format(new Date(this.date), "dd MMMM yyyy", {
+      return format(new Date(this.date), "dd MMMM yyyy, HH'h'mm", {
         locale: fr
       });
     },
