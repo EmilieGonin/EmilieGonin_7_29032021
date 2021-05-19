@@ -1,17 +1,23 @@
 <template>
   <div class="nav">
+    <!--Home-->
     <router-link to="/">
       <img class="nav__logo" src="./assets/logo.png" />
     </router-link>
+    <!--Nav Links-->
     <div class="nav__links">
-      <router-link class="nav__link" :to="'/user/' + user.id" v-if="isLoggedIn">
-        <span v-if="showIcon"><i class="fas fa-user"></i></span>
-        <span v-else>{{ user.firstName }} {{ user.lastName }}</span>
-      </router-link>
-      <router-link class="nav__link" to="/login" v-else>
+      <!--If user isn't logged in-->
+      <router-link class="nav__link" to="/login" v-if="!isLoggedIn">
         <div>Se connecter</div>
         <i class="fad fa-sign-in-alt"></i>
       </router-link>
+      <!--If user is logged in-->
+      <!--User Profile-->
+      <router-link class="nav__link" :to="'/user/' + user.id" v-else>
+        <span v-if="showIcon"><i class="fas fa-user"></i></span>
+        <span v-else>{{ user.firstName }} {{ user.lastName }}</span>
+      </router-link>
+      <!--User Account-->
       <router-link
         class="nav__link nav__link--icon"
         to="/account"
@@ -19,13 +25,16 @@
       >
         <i class="fas fa-cog"></i>
       </router-link>
+      <!--User Logout-->
       <a @click="logout" class="nav__link nav__link--icon" v-if="isLoggedIn">
         <i class="fad fa-sign-out-alt"></i>
       </a>
     </div>
   </div>
+  <!--Error & Confirmation Messages-->
   <ErrorMessage></ErrorMessage>
   <ConfirmationMessage></ConfirmationMessage>
+  <!--View-->
   <router-view class="view" :class="{ slide: error || confirmation }" />
 </template>
 
