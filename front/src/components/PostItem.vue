@@ -10,10 +10,14 @@
     <div class="post-item__header">
       <!--Avatar-->
       <UserAvatar :user="User"></UserAvatar>
-      <!--Name-->
-      <router-link class="post-item__name" :to="'/user/' + User.id">
-        {{ User.firstName }} {{ User.lastName }}
-      </router-link>
+      <div>
+        <!--Name-->
+        <router-link class="post-item__name" :to="'/user/' + User.id">
+          {{ User.firstName }} {{ User.lastName }}
+        </router-link>
+        <!--Date-->
+        <DateItem :date="createdAt"></DateItem>
+      </div>
       <!--Post Menu-->
       <ul v-if="User.id == user.id || user.isAdmin" class="post-item__menu">
         <!--Post Edit button-->
@@ -151,13 +155,15 @@ import { mapGetters } from "vuex";
 import UserAvatar from "@/components/UserAvatar.vue";
 import ResizeAuto from "@/components/ResizeAuto.vue";
 import ImageViewer from "@/components/ImageViewer.vue";
+import DateItem from "@/components/DateItem.vue";
 
 export default {
   name: "PostItem",
   components: {
     UserAvatar,
     ResizeAuto,
-    ImageViewer
+    ImageViewer,
+    DateItem
   },
   data() {
     return {
@@ -174,6 +180,7 @@ export default {
     id: Number,
     text: String,
     file: String,
+    createdAt: String,
     User: Object,
     Comments: Array
   },
