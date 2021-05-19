@@ -3,11 +3,6 @@ module.exports = (sequelize, DataTypes) => {
     text: {
       type: DataTypes.TEXT,
       allowNull: false
-    },
-    likes: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
     }
   })
 }

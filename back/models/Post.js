@@ -6,11 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     file: {
       type: DataTypes.TEXT
-    },
-    likes: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
     }
   })
 }
