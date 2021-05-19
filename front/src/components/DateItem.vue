@@ -1,5 +1,5 @@
 <template>
-  <div class="date">{{ getDate }} ({{ getTimeAgo }})</div>
+  <div class="date" :style="setMaxWidth">{{ getDate }} ({{ getTimeAgo }})</div>
 </template>
 
 <script>
@@ -8,6 +8,11 @@ import fr from "date-fns/locale/fr";
 
 export default {
   name: "DateItem",
+  data() {
+    return {
+      maxWidth: ""
+    };
+  },
   props: {
     date: String
   },
@@ -23,6 +28,24 @@ export default {
         includeSeconds: true,
         locale: fr
       });
+    },
+    setMaxWidth() {
+      return {
+        maxWidth: this.maxWidth
+      };
+    }
+  },
+  mounted() {
+    this.checkDeviceWidth();
+    window.addEventListener("resize", this.checkDeviceWidth);
+  },
+  methods: {
+    checkDeviceWidth() {
+      if (window.innerWidth < 450) {
+        this.maxWidth = window.innerWidth - 165 + "px";
+      } else {
+        this.maxWidth = "none";
+      }
     }
   }
 };
