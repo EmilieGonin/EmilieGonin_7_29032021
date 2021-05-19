@@ -25,6 +25,7 @@ export default {
       const yearInterval = date.getYear() - today.getYear();
       const monthInterval = date.getMonth() - today.getMonth();
       const dayInterval = date.getDate() - today.getDate();
+      const hourInterval = date.getHours() - today.getHours();
       const minutesInterval = date.getMinutes() - today.getMinutes();
       const secondsInterval = date.getSeconds() - today.getSeconds();
 
@@ -49,21 +50,29 @@ export default {
           } else if (dayInterval != 0) {
             return new Intl.RelativeTimeFormat("fr").format(dayInterval, "day");
           } else {
-            //Minutes
-            if (minutesInterval != 0) {
+            //Hours
+            if (hourInterval != 0) {
               return new Intl.RelativeTimeFormat("fr").format(
-                minutesInterval,
-                "minutes"
+                hourInterval,
+                "hours"
               );
             } else {
-              //Seconds
-              if (secondsInterval == 0) {
-                return "à l'instant";
-              } else {
+              //Minutes
+              if (minutesInterval != 0) {
                 return new Intl.RelativeTimeFormat("fr").format(
-                  secondsInterval,
-                  "seconds"
+                  minutesInterval,
+                  "minutes"
                 );
+              } else {
+                //Seconds
+                if (secondsInterval == 0) {
+                  return "à l'instant";
+                } else {
+                  return new Intl.RelativeTimeFormat("fr").format(
+                    secondsInterval,
+                    "seconds"
+                  );
+                }
               }
             }
           }
