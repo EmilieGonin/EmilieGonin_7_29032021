@@ -328,7 +328,7 @@ export default createStore({
       setTimeout(() => {
         commit("RESET_CONFIRMATION");
       }, 2000)
-    },
+    }
   },
   modules: {
   }
