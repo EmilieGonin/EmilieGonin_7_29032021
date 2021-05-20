@@ -10,6 +10,7 @@ cd back
 
 # Secret admin password
 - ADMIN_PASSWORD=""
+# at least 8 characters including upper + lowercase and numbers
 
 # MySQL database informations
 - DB_HOST=""
