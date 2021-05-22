@@ -74,14 +74,18 @@
               readonly
               required
             />
-            <!--Edit Button-->
+            <!--First Name Edit Button-->
             <button
-              @click="edit"
-              id="edit-firstName"
+              @click="firstNameEditable = !firstNameEditable"
               class="form__button form__button--mini"
               type="button"
             >
-              <i class="fas fa-pen"></i>
+              <i
+                :class="{
+                  'fas fa-pen': !firstNameEditable,
+                  'fas fa-times': firstNameEditable
+                }"
+              ></i>
             </button>
           </div>
           <!--Last Name-->
@@ -96,14 +100,18 @@
               readonly
               required
             />
-            <!--Edit Button-->
+            <!--Last Name Edit Button-->
             <button
-              @click="edit"
-              id="edit-lastName"
+              @click="lastNameEditable = !lastNameEditable"
               class="form__button form__button--mini"
               type="button"
             >
-              <i class="fas fa-pen"></i>
+              <i
+                :class="{
+                  'fas fa-pen': !lastNameEditable,
+                  'fas fa-times': lastNameEditable
+                }"
+              ></i>
             </button>
           </div>
         </template>
@@ -134,6 +142,8 @@ export default {
       onMobile: false,
       firstName: this.$store.getters.user.firstName,
       lastName: this.$store.getters.user.lastName,
+      firstNameEditable: false,
+      lastNameEditable: false,
       file: "",
       preview: "",
       deleteFile: false
@@ -144,6 +154,24 @@ export default {
     UserAvatar
   },
   computed: mapGetters(["user", "isLoggedIn", "error", "confirmation"]),
+  watch: {
+    firstNameEditable(editable) {
+      if (editable) {
+        this.$refs.firstName.removeAttribute("readonly");
+        this.$refs.firstName.select();
+      } else {
+        this.$refs.firstName.setAttribute("readonly", true);
+      }
+    },
+    lastNameEditable(editable) {
+      if (editable) {
+        this.$refs.lastName.removeAttribute("readonly");
+        this.$refs.lastName.select();
+      } else {
+        this.$refs.lastName.setAttribute("readonly", true);
+      }
+    }
+  },
   mounted() {
     this.checkDevice();
     window.addEventListener("resize", this.checkDevice);
@@ -166,13 +194,6 @@ export default {
       this.file = "";
       this.preview = "";
       this.deleteFile = true;
-    },
-    edit() {
-      const button = event.currentTarget;
-      const input = button.id.split("-")[1];
-      this.$refs[input].removeAttribute("readonly");
-      this.$refs[input].select();
-      button.classList.add("hidden");
     },
     deleteUser() {
       if (confirm("Voulez-vous vraiment supprimer votre compte ?")) {
@@ -204,6 +225,8 @@ export default {
         .then(() => {
           this.file = "";
           this.preview = "";
+          this.firstNameEditable = false;
+          this.lastNameEditable = false;
           this.$store.dispatch(
             "newConfirmation",
             "Les données ont bien été modifiées !"
