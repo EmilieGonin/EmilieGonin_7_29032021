@@ -43,4 +43,7 @@ export default {
   margin: auto;
   transition: transform 0.5s;
 }
+.slide {
+  transform: translateY(35px);
+}
 </style>
