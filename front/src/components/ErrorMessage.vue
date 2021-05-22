@@ -1,6 +1,12 @@
 <template>
   <transition name="fade">
-    <div class="error" v-if="error">{{ error }}</div>
+    <div
+      class="error"
+      v-if="error"
+      :class="{ 'error--no-absolute': !absolute }"
+    >
+      {{ error }}
+    </div>
   </transition>
 </template>
 
@@ -9,7 +15,10 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "ErrorMessage",
-  computed: mapGetters(["error"])
+  computed: mapGetters(["error"]),
+  props: {
+    absolute: Boolean
+  }
 };
 </script>
 
@@ -25,6 +34,9 @@ export default {
   box-shadow: 0 0 5px $block-color inset;
   padding: 10px;
   text-align: center;
+  &--no-absolute {
+    position: relative;
+  }
 }
 .fade-enter-active {
   transform: translateY(0px);

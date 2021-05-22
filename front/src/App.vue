@@ -2,10 +2,13 @@
   <!--Nav-->
   <NavItem></NavItem>
   <!--Error & Confirmation Messages-->
-  <ErrorMessage></ErrorMessage>
+  <ErrorMessage :absolute="slideEnabled"></ErrorMessage>
   <ConfirmationMessage></ConfirmationMessage>
   <!--View-->
-  <router-view class="view" :class="{ slide: error || confirmation }" />
+  <router-view
+    class="view"
+    :class="{ slide: (error || confirmation) && slideEnabled }"
+  />
 </template>
 
 <script>
@@ -15,6 +18,11 @@ import ConfirmationMessage from "@/components/ConfirmationMessage.vue";
 import NavItem from "@/components/NavItem.vue";
 
 export default {
+  data() {
+    return {
+      slideEnabled: true
+    };
+  },
   components: {
     ErrorMessage,
     ConfirmationMessage,
@@ -25,7 +33,18 @@ export default {
       window.scroll({ top: 0, behavior: "smooth" });
     }
   },
-  computed: mapGetters(["error", "confirmation"])
+  computed: mapGetters(["error", "confirmation"]),
+  mounted() {
+    this.checkWidth();
+    window.addEventListener("resize", this.checkWidth);
+  },
+  methods: {
+    checkWidth() {
+      if (window.innerWidth < 510) {
+        this.slideEnabled = false;
+      }
+    }
+  }
 };
 </script>
 
