@@ -161,6 +161,7 @@ export default {
         this.$refs.firstName.select();
       } else {
         this.$refs.firstName.setAttribute("readonly", true);
+        this.firstName = this.user.firstName;
       }
     },
     lastNameEditable(editable) {
@@ -169,6 +170,7 @@ export default {
         this.$refs.lastName.select();
       } else {
         this.$refs.lastName.setAttribute("readonly", true);
+        this.lastName = this.user.lastName;
       }
     }
   },
