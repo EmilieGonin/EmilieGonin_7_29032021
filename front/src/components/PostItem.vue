@@ -55,6 +55,7 @@
             @click="redirect()"
             :style="!isPostPage() && !editable ? 'cursor: pointer' : ''"
             v-model="postText"
+            v-show="postText || editable"
             :ref="'post-' + id"
             rows="1"
             readonly
@@ -226,10 +227,10 @@ export default {
         );
     },
     edit() {
-      this.$refs["post-" + this.id].removeAttribute("readonly");
-      this.$refs["post-" + this.id].focus();
       this.toggle = false;
       this.editable = true;
+      this.$refs["post-" + this.id].removeAttribute("readonly");
+      this.$refs["post-" + this.id].focus();
     },
     cancelEdit() {
       this.$refs["post-" + this.id].setAttribute("readonly", true);

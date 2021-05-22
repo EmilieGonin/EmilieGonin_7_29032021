@@ -95,8 +95,9 @@ export default {
           text: this.text,
           userId: this.$store.getters.user.id
         };
-        if (!post.text) {
-          const error = "Le post ne peut être vide.";
+        if (!post.text && !this.file) {
+          const error =
+            "Le post doit au moins contenir du texte ou un fichier.";
           this.$store.dispatch("newError", error);
           throw error;
         }
