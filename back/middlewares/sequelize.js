@@ -50,7 +50,7 @@ sequelize.authenticate()
 .then(() => console.log("Connexion à la base de données MySQL terminée !"))
 .catch((error) => console.error("Impossible de se connecter à la base de données :", error));
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: true /*Only for development*/ })
 .then(() => {
   console.log("Base de données synchronisée avec succès !");
 
