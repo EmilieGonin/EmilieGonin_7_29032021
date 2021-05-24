@@ -1,9 +1,7 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 
-//localStorage.clear();
 const user = JSON.parse(localStorage.getItem("user"));
-// console.log(user);
 if (user) { authHeader(user) }
 
 export function authHeader(user) {
@@ -23,19 +21,12 @@ export default createStore({
     }
   },
   getters: {
-    posts: state => {
-      return state.posts;
-    },
-    post: state => {
-      return state.post;
-    },
-    user: state => {
-      return state.user.user;
-    },
+    posts: state => { return state.posts },
+    post: state => { return state.post },
+    user: state => { return state.user.user },
     profileUser: state => { return state.profileUser },
-    loading: state => {
-      return state.loading;
-    },
+    loading: state => { return state.loading },
+    isLoggedIn: state => !!state.user,
     error: state => {
       if (state.error) {
         return state.error;
@@ -45,21 +36,18 @@ export default createStore({
       if (state.confirmation) {
         return state.confirmation;
       }
-    },
-    isLoggedIn: state => !!state.user
+    }
   },
   mutations: {
-    SET_POSTS(state, posts) {
-      state.posts = posts;
+    // General
+    REQUEST(state) {
+      state.loading = true;
+    },
+    SUCCESS(state) {
       state.loading = false;
+      state.error = "";
     },
-    SET_POST(state, post) {
-      state.post = post;
-      state.loading = false;
-    },
-    SET_PROFILE_USER(state, user) {
-      state.profileUser = user;
-    },
+    // Users
     AUTH_SUCCESS(state, user) {
       localStorage.setItem("user", JSON.stringify(user));
       authHeader(user);
@@ -70,19 +58,26 @@ export default createStore({
     LOGOUT(state) {
       state.user = null;
     },
-    SUCCESS(state) {
+    SET_PROFILE_USER(state, user) {
+      state.profileUser = user;
+    },
+    // Posts
+    SET_POSTS(state, posts) {
+      state.posts = posts;
       state.loading = false;
-      state.error = "";
     },
-    REQUEST(state) {
-      state.loading = true;
+    SET_POST(state, post) {
+      state.post = post;
+      state.loading = false;
     },
+    // Errors
     ERROR(state, error) {
       state.error = "Erreur : " + error;
     },
     RESET_ERROR(state) {
       state.error = "";
     },
+    // Confirmation
     CONFIRMATION(state, message) {
       state.confirmation = message;
     },
@@ -323,13 +318,12 @@ export default createStore({
     resetError({ commit }) {
       commit("RESET_ERROR");
     },
+    // Confirmation
     newConfirmation({ commit }, message) {
       commit("CONFIRMATION", message);
       setTimeout(() => {
         commit("RESET_CONFIRMATION");
       }, 2000)
     }
-  },
-  modules: {
   }
 })

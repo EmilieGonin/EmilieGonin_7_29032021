@@ -168,7 +168,6 @@ export default {
   },
   data() {
     return {
-      toggle: false,
       editable: false,
       postText: this.text,
       deleteFile: false,
@@ -227,7 +226,6 @@ export default {
         );
     },
     edit() {
-      this.toggle = false;
       this.editable = true;
       this.$refs["post-" + this.id].removeAttribute("readonly");
       this.$refs["post-" + this.id].focus();
