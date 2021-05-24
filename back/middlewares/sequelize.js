@@ -42,8 +42,8 @@ db.Comment.belongsTo(db.Post);
 db.User.beforeCreate(async (user) => {
   user.password = await bcrypt.hash(user.password, 10);
 })
-db.User.prototype.passwordIsValid = async function(password) {
-  return await bcrypt.compare(password, this.password);
+db.User.prototype.passwordIsValid = function(password) {
+  return bcrypt.compareSync(password, this.password);
 }
 
 sequelize.authenticate()
