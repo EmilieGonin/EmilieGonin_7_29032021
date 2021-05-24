@@ -40,9 +40,7 @@ export default {
   },
   methods: {
     checkWidth() {
-      if (window.innerWidth < 510) {
-        this.slideEnabled = false;
-      }
+      this.slideEnabled = window.innerWidth > 510;
     }
   }
 };
